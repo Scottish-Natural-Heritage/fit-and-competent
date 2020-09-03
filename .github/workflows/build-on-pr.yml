@@ -1,0 +1,19 @@
+name: Build on PRs
+
+on:
+  pull_request:
+
+jobs:
+
+  build:
+    name: Build the Image
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Install all the pre-requisites
+      run: npm ci && npm prune --production
+
+    - name: Check the pre-start operations
+      run: npm run prestart
