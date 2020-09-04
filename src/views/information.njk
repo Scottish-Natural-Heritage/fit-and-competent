@@ -1,0 +1,73 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% block content %}
+  <h1 class="govuk-heading-xl">
+     What information do you need to provide?
+  </h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <p class="govuk-body">
+        To apply to be Fit and Competent you will need to provide:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          the number of your Firearms Certificate and date obtained
+        </li>
+        <li>
+          the number of your deer stalking certificate (DSC1, DSC2 or equivalent) and date obtained
+        </li>
+        <li>
+          the number and types of deer controlled within the last 5 years
+        </li>
+      </ul>
+
+      <p class="govuk-body">
+        You must not have been convicted of a Wildlife Crime within the last 5 years
+      </p>
+
+      {{ govukWarningText({
+        text: 'You will not be able to save and return to your application so please have these documents to hand before you start',
+        iconFallbackText: 'Warning'
+      }) }}
+
+      {{ govukWarningText({
+        text: 'You can also use this service to amend, renew or surrender your status',
+        iconFallbackText: 'Warning'
+      }) }}
+
+    <form method="post">
+        {{ govukButton({
+        text: "Continue",
+        classes: "naturescot-forward-button"
+        }) }}
+    </form>
+
+      <p class="govuk-body">
+        If you need assistance with this application or if you do not hold a Firearms Certificate, or DSC Level 1 or 2 or equivalent and 
+        would like advice on how to apply, contact the NatureScot Licensing Team.
+      </p>
+
+      <h3 class="govuk-heading-s">Email</h3>
+      <ul class="govuk-list">
+        <li><a class="govuk-link" href="mailto:licensing@nature.scot">licensing@nature.scot</a></li>
+      </ul>
+      <h3 class="govuk-heading-s">Telephone</h3>
+      <ul class="govuk-list">
+        <li>01463 725 364</li>
+        <li>Monday to Friday, 10am to 4pm (except public holidays)</li>
+      </ul>
+      <p class="govuk-body">
+        <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="https://www.gov.uk/call-charges">Find out about call charges&nbsp;(opens in new tab)</a>
+      </p>
+      <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#top-of-page">
+        Back to top
+      </a>
+    </div>
+  </div>
+
+{% endblock %}
