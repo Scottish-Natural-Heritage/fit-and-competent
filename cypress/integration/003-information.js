@@ -17,7 +17,7 @@ describe('information page ', function () {
 
   it('should allow access if the user visits all the pages in order', function () {
     cy.visit('/information');
-    cy.get('h1').should('contain', 'information you need to provide');
+    cy.get('h1').should('contain', 'information do you need to provide');
   });
 
 });
