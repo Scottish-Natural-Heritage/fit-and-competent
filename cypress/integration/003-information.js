@@ -20,4 +20,9 @@ describe('information page ', function () {
     cy.get('h1').should('contain', 'information do you need to provide');
   });
 
+  it('main button should navigate to gdpr', function () {
+    cy.visit('/information');
+    cy.get('#main-content form button.naturescot-forward-button').click();
+    cy.url().should('include', '/gdpr');
+  });
 });
