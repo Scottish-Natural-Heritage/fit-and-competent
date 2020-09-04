@@ -1,17 +1,116 @@
 {% extends "_base.njk" %}
 
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 {% block content %}
   <h1 class="govuk-heading-xl">
-    Fit and Competent
+    Fit and Competent Controllers Registration
   </h1>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+
       <p class="govuk-body">
-        Use this service to apply for a Fit and Competent licence
+        You must hold Fit and Competent Controller status if you wish to control deer:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          Out of season (under a specific <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="http://gateway.snh.gov.uk/go/?id=35">5(6)</a> authorisation of the Deer Act)
+        </li>
+        <li>
+          At night (under the <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="http://gateway.snh.gov.uk/go/?id=36">18(2)</a> authorisation of the Deer Act)
+        </li>
+        <li>
+          Under the <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="http://gateway.snh.gov.uk/go/?id=34">general authorisation</a> (if you don’t meet the criteria below)
+        </li>
+      </ul>
+
+      {{ govukWarningText({
+        text: '' +
+          'You can use this service to apply, amend, renew or surrender your status.',
+        iconFallbackText: "Warning"
+      }) }}
+
+      <form method="post">
+        {{ govukButton({
+          text: "Continue",
+          classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8 naturescot-forward-button",
+          isStartButton: true
+        }) }}
+      </form>
+
+      {{ govukWarningText({
+        html: 'Any of the following who wish to control deer under the <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="http://gateway.snh.gov.uk/go/?id=34">General Authorisation</a> ' +
+              '(to prevent damage to improved agricultural land or enclosed woodland) do not need to be registered:' +
+              '<ul class="govuk-list govuk-list--bullet govuk-!-margin-top-5">' +
+                '<li class="govuk-!-font-weight-bold">' +
+                  'Owner or occupier' +
+                '</li>' +
+                '<li class="govuk-!-font-weight-bold">' +
+                  'An employee of the owner or occupier (if authorised by them)' +
+                '</li>' +
+                '<li class="govuk-!-font-weight-bold">' +
+                  'Any other resident on the land' +
+                '</li>' +
+              '</ul>',
+        iconFallbackText: "Warning"
+      }) }}
+
+      <p class="govuk-body">
+        If you need assistance with this application or if you do not hold a Firearms Certificate, or DSC Level 1 or 2 or equivalent and 
+        would like advice on how to apply, contact the NatureScot Licensing Team.
+      </p>
+
+      <h3 class="govuk-heading-s">Email</h3>
+      <ul class="govuk-list">
+        <li><a class="govuk-link" href="mailto:licensing@nature.scot">licensing@nature.scot</a></li>
+      </ul>
+      <h3 class="govuk-heading-s">Telephone</h3>
+      <ul class="govuk-list">
+        <li>01463 725 364</li>
+        <li>Monday to Friday, 10am to 4pm (except public holidays)</li>
+      </ul>
+      <p class="govuk-body">
+        <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="https://www.gov.uk/call-charges">Find out about call charges&nbsp;(opens in new tab)</a>
       </p>
       <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#top-of-page">
         Back to top
       </a>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+      {{ govukAccordion({
+        id: "startExplanations",
+        items: [
+          {
+            heading: {
+              text: "What is out of season?"
+            },
+            content: {
+              html:
+                '<p class="govuk-body">' +
+                '  ‘Out of Season’ is the remaining period of the year out-with ‘Open Seasons’ (when the 4 wild deer species in Scotland can be legally ' +
+                '  killed or taken with a landowners permission) when deer can be taken to prevent damage to an owner/occupiers interest or to ' +
+                '  reduce the risk to public safety.' +
+                '</p>'
+            },
+            expanded: false
+          },
+          {
+          heading: {
+            text: "What is night shooting?"
+          },
+          content: {
+            html:
+              '<p class="govuk-body">' +
+              '  Shooting deer during the period 1 hour after sunset to 1 hour before sunrise is classed as night shooting.' +
+              '</p>'
+          },
+          expanded: false
+        }
+        ]
+      })}}
     </div>
   </div>
 
