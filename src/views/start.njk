@@ -2,6 +2,7 @@
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 {% block content %}
   <h1 class="govuk-heading-xl">
     Fit and Competent Controllers Registration
@@ -25,9 +26,11 @@
         </li>
       </ul>
 
-      <p class="govuk-body">
-        ! You can use this service to apply, amend, renew or surrender your status
-      </p>
+      {{ govukWarningText({
+        text: '' +
+          'You can use this service to apply, amend, renew or surrender your status.',
+        iconFallbackText: "Warning"
+      }) }}
 
       <form method="post">
         {{ govukButton({
@@ -37,22 +40,22 @@
         }) }}
       </form>
 
-      <p class="govuk-body">
-        ! Any of the following who wish to control deer under the <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="http://gateway.snh.gov.uk/go/?id=34">General Authorisation</a> (to prevent damage to improved agricultural land
-        or enclosed woodland) do not need to be registered:
-      </p>
-
-      <ul class="govuk-list govuk-list--bullet">
-        <li>
-          Owner or occupier
-        </li>
-        <li>
-          An employee of the owner or occupier (if authorised by them)
-        </li>
-        <li>
-          Any other resident on the land
-        </li>
-      </ul>
+      {{ govukWarningText({
+        html: 'Any of the following who wish to control deer under the <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="http://gateway.snh.gov.uk/go/?id=34">General Authorisation</a> ' +
+              '(to prevent damage to improved agricultural land or enclosed woodland) do not need to be registered:' +
+              '<ul class="govuk-list govuk-list--bullet govuk-!-margin-top-5">
+                <li class="govuk-!-font-weight-bold">
+                  Owner or occupier
+                </li>
+                <li class="govuk-!-font-weight-bold">
+                  An employee of the owner or occupier (if authorised by them)
+                </li>
+                <li class="govuk-!-font-weight-bold">
+                  Any other resident on the land
+                </li>
+              </ul>',
+        iconFallbackText: "Warning"
+      }) }}
 
       <p class="govuk-body">
         If you need assistance with this application or if you do not hold a Firearms Certificate, or DSC Level 1 or 2 or equivalent and 
