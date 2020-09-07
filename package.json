@@ -1,7 +1,7 @@
 {
   "name": "fit-and-competent",
   "version": "1.0.0",
-  "description": "Apply for a Fit and Competent licence",
+  "description": "Apply for Fit and Competent status",
   "author": "John Moore <john.moore@nature.scot>",
   "repository": "github:Scottish-Natural-Heritage/fit-and-competent",
   "license": "(MIT OR OGL-UK-3.0 OR Apache-2.0)",
