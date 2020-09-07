@@ -1,11 +1,11 @@
-describe('Conviction page directly', function () {
+describe('Conviction stop page directly', function () {
   it('should prevent access', function () {
-    cy.visit('/conviction', {failOnStatusCode: false});
+    cy.visit('/conviction-stop', {failOnStatusCode: false});
     cy.get('h1').should('contain', 'there is a problem with the service');
   });
 });
 
-describe('Conviction page ', function () {
+describe('Conviction stop page ', function () {
   beforeEach(() => {
     // GET `/start`
     cy.visit('/start');
@@ -20,18 +20,16 @@ describe('Conviction page ', function () {
     // ~GET `/gdpr`~
     // POST `/gdpr`
     cy.get('#main-content form button.naturescot-forward-button').click();
+
+    // ~GET `/conviction`~
+    // CLICK yes
+    cy.get('#main-content form input[type="radio"][value="yes"]').click();
+    // POST `/conviction`
+    cy.get('#main-content form button.naturescot-forward-button').click();
   });
 
   it('should allow access if the user visits all the pages in order', function () {
-    cy.visit('/conviction');
-    cy.get('h1').should('contain', 'Have you been convicted of a wildlife crime?');
+    cy.visit('/conviction-stop');
+    cy.get('h1').should('contain', 'You are not eligible');
   });
-
-  it('"yes" radio + main button should navigate to conviction-stop', function () {
-    cy.visit('/conviction');
-    cy.get('#main-content form input[type="radio"][value="yes"]').click();
-    cy.get('#main-content form button.naturescot-forward-button').click();
-    cy.url().should('include', '/conviction-stop');
-  });
-
 });
