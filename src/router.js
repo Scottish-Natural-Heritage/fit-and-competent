@@ -40,7 +40,15 @@ router.use(
   Page({
     path: 'conviction',
     back: 'gdpr',
+    negativeForward: 'conviction-stop',
     controller: ConvictionController
+  })
+);
+
+router.use(
+  Page({
+    path: 'conviction-stop',
+    back: 'conviction'
   })
 );
 
