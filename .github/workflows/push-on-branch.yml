@@ -1,4 +1,4 @@
-name: Build on Pushes to Branches
+name: Lint and Test on Branches
 
 on:
   push:
@@ -6,15 +6,21 @@ on:
 
 jobs:
 
-  build:
-    name: Build the Image
+  lint_and_test:
+    name: Lint and Test the Project
     runs-on: ubuntu-latest
     steps:
 
     - uses: actions/checkout@v2
 
     - name: Install all the pre-requisites
-      run: npm ci && npm prune --production
+      run: npm ci
+
+    - name: Check the linter
+      run: npm run lint
 
     - name: Check the pre-start operations
       run: npm run prestart
+
+    - name: Check the integration tests
+      run: npm run test
