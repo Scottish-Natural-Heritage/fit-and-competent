@@ -25,7 +25,7 @@ USER node
 COPY --chown=node:node package*.json ./
 
 # install all the node modules required
-ENV NODE_ENV=production
+ENV NODE_ENV production
 RUN npm ci && npm prune
 
 ################################################################################
