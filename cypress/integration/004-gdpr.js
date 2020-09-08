@@ -28,5 +28,4 @@ describe('GDPR page ', function () {
     cy.get('#main-content form button.naturescot-forward-button').click();
     cy.url().should('include', '/conviction');
   });
-
 });
