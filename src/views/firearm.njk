@@ -1,0 +1,103 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% block content %}
+
+  {% if model.firearmError %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+            text: "You must enter the number found on your firearm certificate.",
+            href: "#certificate-number-error"
+        } if model.certificateNumberError,
+        {
+            text: "You must enter the date you aquired your firearm certificate.",
+            href: "#certificate-issued-error"
+        } if model.certificateIssuedError,
+        {
+            text: "Your firearm certificate iisue date can not be a future date",
+            href: "#certificate-number-error"
+        } if model.certificateIssuedFutureError,
+        {
+            text: "Your firearm certificate must be less than five years old.",
+            href: "#certificate-issued-error"
+        } if model.certificateIssuedExpiredError
+      ]
+    }) }}
+  {% endif %}
+
+  <h1 class="govuk-heading-xl">
+    Do you have a Firearm Certificate?
+  </h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <p class="govuk-body">
+            Please add the number of your certificate below and date obtained
+        </p>
+
+        <form method="post">
+          {{ govukInput({
+              label: {
+              text: "Number"
+              },
+              classes: "govuk-!-width-one-half",
+              id: "certificate-number",
+              name: "certificateNumber",
+              value: model.certificateNumber,
+              errorMessage: {
+              text: "Enter a certificate number"
+              } if model.certificateNumberError,
+              attributes: {
+              spellcheck: "false"
+              }
+          }) }}
+
+          {{ govukDateInput({
+              errorMessage: {
+              text: "Provide a valid date"
+              } if model.certificateIssuedError,
+              label: {
+                text: "Date"
+              },
+              classes: "govuk-!-width-one-half",
+              id: "certificate-issued",
+              name: "certificateIssued",
+              value: model.certificateIssued
+          }) }}
+
+          {{ govukWarningText({
+              text: '' +
+              'If you do not hold a Firearm Certificate and want to continue with your application please contact the NatureScot Licensing Team.',
+              iconFallbackText: "Warning"
+          }) }}
+
+          {{ govukButton({
+          text: "Continue",
+          classes: "naturescot-forward-button"
+          }) }}
+        </form>
+      <h3 class="govuk-heading-s">Email</h3>
+      <ul class="govuk-list">
+        <li><a class="govuk-link" href="mailto:licensing@nature.scot">licensing@nature.scot</a></li>
+      </ul>
+      <h3 class="govuk-heading-s">Telephone</h3>
+      <ul class="govuk-list">
+        <li>01463 725 364</li>
+        <li>Monday to Friday, 10am to 4pm (except public holidays)</li>
+      </ul>
+      <p class="govuk-body">
+        <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="https://www.gov.uk/call-charges">Find out about call charges&nbsp;(opens in new tab)</a>
+      </p>
+      <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#top-of-page">
+        Back to top
+      </a>
+    </div>
+  </div>
+{% endblock %}
