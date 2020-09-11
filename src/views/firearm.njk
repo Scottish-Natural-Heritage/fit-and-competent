@@ -44,19 +44,20 @@
               text: "Firearm Certificate number",
               classes: "govuk-label--m"
             },
-              classes: "govuk-!-width-one-half",
-              id: "certificate-number",
-              name: "certificateNumber",
-              value: model.certificateNumber,
-              errorMessage: {
+            classes: "govuk-!-width-one-half",
+            id: "certificate-number",
+            name: "certificateNumber",
+            value: model.certificateNumber,
+            errorMessage: {
               text: "Enter a certificate number"
-              } if model.certificateNumberError,
-              attributes: {
+            } if model.certificateNumberError,
+            attributes: {
               spellcheck: "false"
-              }
+            }
           }) }}
 
           {{ govukDateInput({
+            id: "certificate-issued",
               errorMessage: {
               text: "Provide a valid date"
               } if model.certificateIssuedError,
@@ -68,9 +69,8 @@
             hint: {
               text: "For example, 31 3 1980"
             },
+            classes: "govuk-!-width-one-half",
               },
-              classes: "govuk-!-width-one-half",
-              id: "certificate-issued",
               name: "certificateIssued",
               value: model.certificateIssued
           }) }}
@@ -80,7 +80,7 @@
               'If you do not hold a Firearm Certificate and want to continue ' +
               'with your application please contact the NatureScot Licensing ' +
               'Team.',
-              iconFallbackText: "Warning"
+            iconFallbackText: "Warning"
           }) }}
 
           {{ govukButton({
