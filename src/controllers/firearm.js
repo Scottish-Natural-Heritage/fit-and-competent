@@ -1,6 +1,112 @@
 import {ReturnState} from './_base.js';
 
 /**
+ * Process a string in to either it's integer `number` representation or return
+ * `undefined`.
+ *
+ * @param {string | undefined} dirtyValue The user's supplied integer value.
+ * @returns {number | undefined} The cleaned integer value.
+ */
+const cleanInt = (dirtyValue) => {
+  // Check we've not been given `undefined`.
+  if (dirtyValue === undefined) {
+    return undefined;
+  }
+
+  // Check we've not been given an empty string.
+  const trimmedValue = dirtyValue.trim();
+  if (trimmedValue === '') {
+    return undefined;
+  }
+
+  // Check we're only receiving digits, not text, negative numbers or floats.
+  if (!/^\d+$/.test(trimmedValue)) {
+    return undefined;
+  }
+
+  // Check it does actually parse correctly.
+  const valueAsNumber = Number.parseInt(trimmedValue, 10);
+  if (Number.isNaN(valueAsNumber)) {
+    return undefined;
+  }
+
+  // Return the fully validated integer value.
+  return valueAsNumber.valueOf();
+};
+
+/**
+ * Clean a user supplied 'day' in to either a `number` or `undefined`.
+ *
+ * @param {string | undefined} dirtyDay The user's supplied day value.
+ * @returns {number | undefined} The cleaned day value.
+ */
+const cleanDay = (dirtyDay) => {
+  const dayAsNumber = cleanInt(dirtyDay);
+
+  if (dayAsNumber === undefined) {
+    return undefined;
+  }
+
+  if (dayAsNumber < 1) {
+    return undefined;
+  }
+
+  if (dayAsNumber > 31) {
+    return undefined;
+  }
+
+  return dayAsNumber;
+};
+
+/**
+ * Clean a user supplied 'month' in to either a `number` or `undefined`.
+ *
+ * @param {string | undefined} dirtyMonth The user's supplied month value.
+ * @returns {number | undefined} The cleaned month value.
+ */
+const cleanMonth = (dirtyMonth) => {
+  const monthAsNumber = cleanInt(dirtyMonth);
+
+  if (monthAsNumber === undefined) {
+    return undefined;
+  }
+
+  if (monthAsNumber < 1) {
+    return undefined;
+  }
+
+  if (monthAsNumber > 12) {
+    return undefined;
+  }
+
+  return monthAsNumber;
+};
+
+/**
+ * Clean a user supplied 'year' in to either a `number` or `undefined`.
+ *
+ * @param {string | undefined} dirtyYear The user's supplied year value.
+ * @returns {number | undefined} The cleaned year value.
+ */
+const cleanYear = (dirtyYear) => {
+  const yearAsNumber = cleanInt(dirtyYear);
+
+  if (yearAsNumber === undefined) {
+    return undefined;
+  }
+
+  if (yearAsNumber < 1000) {
+    return undefined;
+  }
+
+  if (yearAsNumber > 9999) {
+    return undefined;
+  }
+
+  return yearAsNumber;
+};
+
+/**
  * Clean the incoming POST request body to make it more compatible with the
  * database and its validation rules.
  *
@@ -8,66 +114,98 @@ import {ReturnState} from './_base.js';
  * @returns {any} A json object that's just got our cleaned up fields on it.
  */
 const cleanInput = (body) => {
-  // Initialize a new date and then use the set full year method using the day month year in the request body.
-  const initDate = new Date();
-  initDate.setFullYear(body.year.trim(), body.month.trim() - 1, body.day.trim());
-  // Date input separates captured data into three properties: day, month and year,
-  // therefor there is a check needed to ensure all three properties have been provided.
-  // If they have not been provided then it needs to set the date to undefined.
-  // If all three properties have been provided it needs to then check that the values provided
-  // can produce a valid date if so then set the date, if not then set the date to undefined.
-  // The final check is to ensure the user has provided a valid date something like 01/01/2020
-  // and not something like 31/02/2020
-  let certificateIssuedDate;
-  if (
-    body.year.trim() !== '' ||
-    body.month.trim() !== '' ||
-    body.day.trim() !== '' ||
-    !isNaN(new Date(body.year.trim(), body.month.trim(), body.day.trim())) ||
-    initDate.getDate() === body.day.trim() ||
-    initDate.getMonth() + 1 === body.month.trim()
-  ) {
-    certificateIssuedDate = initDate;
-  }
-
   return {
     // The string is trimmed for leading and trailing whitespace and then
     // copied across if they're in the POST body or are set to undefined if
     // they're missing.
-    certificateNumber: body.certificateNumber === undefined ? undefined : body.certificateNumber.trim(),
-    certificateIssued: certificateIssuedDate
+    cleanCertificateNumber: body.certificateNumber === undefined ? undefined : body.certificateNumber.trim(),
+    cleanCertificateIssuedYear: cleanYear(body.certificateIssuedYear),
+    cleanCertificateIssuedMonth: cleanMonth(body.certificateIssuedMonth),
+    cleanCertificateIssuedDay: cleanDay(body.certificateIssuedDay)
   };
 };
 
 const firearmController = (request) => {
-  // Clean up the user's input before we store it in the session.
-  const cleanForm = cleanInput(request.body);
-  // Initialize dates for validation/error checking
-  const nowDate = new Date();
-  const minDate = new Date();
-  minDate.setFullYear(minDate.getFullYear() - 5);
+  // Clear any existing errors.
+  request.session.firearmError = false;
+  request.session.certificateNumberError = false;
+  request.session.certificateIssuedYearError = false;
+  request.session.certificateIssuedMonthError = false;
+  request.session.certificateIssuedDayError = false;
+  request.session.certificateIssuedInvalidError = false;
+  request.session.certificateIssuedFutureError = false;
+  request.session.certificateIssuedExpiredError = false;
 
-  request.session.certificateNumber = cleanForm.certificateNumber;
-  request.session.certificateIssued = cleanForm.certificateIssued;
+  // Clean up the user's input before we use it.
+  const {
+    cleanCertificateNumber,
+    cleanCertificateIssuedYear,
+    cleanCertificateIssuedMonth,
+    cleanCertificateIssuedDay
+  } = cleanInput(request.body);
 
-  request.session.certificateNumberError =
-    request.session.certificateNumber === undefined || request.session.certificateNumber.trim() === '';
-  // If issued date has returned from the cleanInput function as undefined.
-  request.session.certificateIssuedError = request.session.certificateIssued === undefined;
+  // Save the certificate number.
+  request.session.certificateNumber = cleanCertificateNumber;
 
-  // If issued date has returned from the cleanInput function successfully but is greater than todays date.
-  request.session.certificateIssuedFutureError =
-    cleanForm.certificateIssued !== undefined && cleanForm.certificateIssued > nowDate;
+  // Check the certificate number is 'valid'.
+  request.session.certificateNumberError = cleanCertificateNumber === undefined || cleanCertificateNumber === '';
 
-  // If issued date has returned from the cleanInput function successfully but is more than five
-  // years old from todays date.
-  request.session.certificateIssuedExpiredError =
-    cleanForm.certificateIssued !== undefined && cleanForm.certificateIssued < minDate;
+  // Save the certificate's issued date.
+  request.session.certificateIssuedYear = cleanCertificateIssuedYear;
+  request.session.certificateIssuedMonth = cleanCertificateIssuedMonth;
+  request.session.certificateIssuedDay = cleanCertificateIssuedDay;
 
-  // Check that any of the fields are invalid.
+  // Check the certificate's issued date's fields were valid.
+  request.session.certificateIssuedYearError = cleanCertificateIssuedYear === undefined;
+  request.session.certificateIssuedMonthError = cleanCertificateIssuedMonth === undefined;
+  request.session.certificateIssuedDayError = cleanCertificateIssuedDay === undefined;
+
+  if (
+    request.session.certificateIssuedYearError ||
+    request.session.certificateIssuedMonthError ||
+    request.session.certificateIssuedDayError
+  ) {
+    // If any individual fields were invalid, there's no point in even checking
+    // these yet.
+    request.session.certificateIssuedInvalidError = false;
+    request.session.certificateIssuedFutureError = false;
+    request.session.certificateIssuedExpiredError = false;
+  } else {
+    // Construct a date from our fields and see whether it's a valid date.
+    const testDate = new Date(cleanCertificateIssuedYear, cleanCertificateIssuedMonth - 1, cleanCertificateIssuedDay);
+    request.session.certificateIssuedInvalidError =
+      testDate.getFullYear() !== cleanCertificateIssuedYear ||
+      testDate.getMonth() + 1 !== cleanCertificateIssuedMonth ||
+      testDate.getDate() !== cleanCertificateIssuedDay;
+
+    // Check the constructed date isn't in the future.
+    const nowDate = new Date();
+    request.session.certificateIssuedFutureError = testDate > nowDate;
+
+    // Check the constructed date isn't more than 5 years ago.
+    const minDate = new Date(nowDate.getFullYear() - 5, nowDate.getMonth(), nowDate.getDate());
+    request.session.certificateIssuedExpiredError = testDate < minDate;
+
+    if (
+      !request.session.certificateIssuedInvalidError &&
+      !request.session.certificateIssuedFutureError &&
+      !request.session.certificateIssuedExpiredError
+    ) {
+      // If there's no errors on the constructed date, save it for later.
+      request.session.certificateIssuedDate = testDate;
+    } else {
+      // If there is an error though, just clear that field.
+      request.session.certificateIssuedDate = undefined;
+    }
+  }
+
+  // Check for any errors in the processing.
   request.session.firearmError =
     request.session.certificateNumberError ||
-    request.session.certificateIssuedError ||
+    request.session.certificateIssuedYearError ||
+    request.session.certificateIssuedMonthError ||
+    request.session.certificateIssuedDayError ||
+    request.session.certificateIssuedInvalidError ||
     request.session.certificateIssuedFutureError ||
     request.session.certificateIssuedExpiredError;
 

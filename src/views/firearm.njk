@@ -33,49 +33,69 @@
   {% endif %}
 
   <h1 class="govuk-heading-xl">
-    Do you have a Firearm Certificate?
+    Firearm Certificate details
   </h1>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        <p class="govuk-body">
-            Please add the number of your certificate below and date obtained
-        </p>
-
         <form method="post">
           {{ govukInput({
-              label: {
-              text: "Number"
-              },
-              classes: "govuk-!-width-one-half",
-              id: "certificate-number",
-              name: "certificateNumber",
-              value: model.certificateNumber,
-              errorMessage: {
+            label: {
+              text: "Firearm Certificate number",
+              classes: "govuk-label--m"
+            },
+            classes: "govuk-!-width-one-half",
+            id: "certificate-number",
+            name: "certificateNumber",
+            value: model.certificateNumber,
+            errorMessage: {
               text: "Enter a certificate number"
-              } if model.certificateNumberError,
-              attributes: {
+            } if model.certificateNumberError,
+            attributes: {
               spellcheck: "false"
-              }
+            }
           }) }}
 
           {{ govukDateInput({
-              errorMessage: {
-              text: "Provide a valid date"
-              } if model.certificateIssuedError,
-              label: {
-                text: "Date"
+            id: "certificate-issued",
+            fieldset: {
+              legend: {
+                text: "Date of issue",
+                classes: "govuk-fieldset__legend--m"
+              }
+            },
+            hint: {
+              text: "For example, 31 3 1980"
+            },
+            classes: "govuk-!-width-one-half",
+            items: [
+              {
+                name: "certificateIssuedDay",
+                label: "Day",
+                value: model.certificateIssuedDay,
+                classes: "govuk-input--width-2"
               },
-              classes: "govuk-!-width-one-half",
-              id: "certificate-issued",
-              name: "certificateIssued",
-              value: model.certificateIssued
+              {
+                name: "certificateIssuedMonth",
+                label: "Month",
+                value: model.certificateIssuedMonth,
+                classes: "govuk-input--width-2"
+              },
+              {
+                name: "certificateIssuedYear",
+                label: "Year",
+                value: model.certificateIssuedYear,
+                classes: "govuk-input--width-4"
+              }
+            ]
           }) }}
 
           {{ govukWarningText({
-              text: '' +
-              'If you do not hold a Firearm Certificate and want to continue with your application please contact the NatureScot Licensing Team.',
-              iconFallbackText: "Warning"
+            text: '' +
+              'If you do not hold a Firearm Certificate and want to continue ' +
+              'with your application please contact the NatureScot Licensing ' +
+              'Team.',
+            iconFallbackText: "Warning"
           }) }}
 
           {{ govukButton({
