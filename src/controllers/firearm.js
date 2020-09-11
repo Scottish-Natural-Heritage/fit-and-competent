@@ -35,6 +35,78 @@ const cleanInt = (dirtyValue) => {
 }
 
 /**
+ * Clean a user supplied 'day' in to either a `number` or `undefined`.
+ *
+ * @param {string | undefined} dirtyDay The user's supplied day value.
+ * @returns {number | undefined} The cleaned day value.
+ */
+const cleanDay = (dirtyDay) => {
+  const dayAsNumber = cleanInt(dirtyDay);
+
+  if (dayAsNumber === undefined) {
+    return undefined;
+  }
+
+  if (dayAsNumber < 1) {
+    return undefined;
+  }
+
+  if (dayAsNumber > 31) {
+    return undefined;
+  }
+
+  return dayAsNumber;
+};
+
+/**
+ * Clean a user supplied 'month' in to either a `number` or `undefined`.
+ *
+ * @param {string | undefined} dirtyMonth The user's supplied month value.
+ * @returns {number | undefined} The cleaned month value.
+ */
+const cleanMonth = (dirtyMonth) => {
+  const monthAsNumber = cleanInt(dirtyMonth);
+
+  if (monthAsNumber === undefined) {
+    return undefined;
+  }
+
+  if (monthAsNumber < 1) {
+    return undefined;
+  }
+
+  if (monthAsNumber > 12) {
+    return undefined;
+  }
+
+  return monthAsNumber;
+};
+
+/**
+ * Clean a user supplied 'year' in to either a `number` or `undefined`.
+ *
+ * @param {string | undefined} dirtyYear The user's supplied year value.
+ * @returns {number | undefined} The cleaned year value.
+ */
+const cleanYear = (dirtyYear) => {
+  const yearAsNumber = cleanInt(dirtyYear);
+
+  if (yearAsNumber === undefined) {
+    return undefined;
+  }
+
+  if (yearAsNumber < 1000) {
+    return undefined;
+  }
+
+  if (yearAsNumber > 9999) {
+    return undefined;
+  }
+
+  return yearAsNumber;
+};
+
+/**
  * Clean the incoming POST request body to make it more compatible with the
  * database and its validation rules.
  *
