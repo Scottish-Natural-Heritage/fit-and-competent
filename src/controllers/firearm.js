@@ -32,7 +32,7 @@ const cleanInt = (dirtyValue) => {
 
   // Return the fully validated integer value.
   return valueAsNumber.valueOf();
-}
+};
 
 /**
  * Clean a user supplied 'day' in to either a `number` or `undefined`.
@@ -114,34 +114,14 @@ const cleanYear = (dirtyYear) => {
  * @returns {any} A json object that's just got our cleaned up fields on it.
  */
 const cleanInput = (body) => {
-  // Initialize a new date and then use the set full year method using the day month year in the request body.
-  const initDate = new Date();
-  initDate.setFullYear(body.year.trim(), body.month.trim() - 1, body.day.trim());
-  // Date input separates captured data into three properties: day, month and year,
-  // therefor there is a check needed to ensure all three properties have been provided.
-  // If they have not been provided then it needs to set the date to undefined.
-  // If all three properties have been provided it needs to then check that the values provided
-  // can produce a valid date if so then set the date, if not then set the date to undefined.
-  // The final check is to ensure the user has provided a valid date something like 01/01/2020
-  // and not something like 31/02/2020
-  let certificateIssuedDate;
-  if (
-    body.year.trim() !== '' ||
-    body.month.trim() !== '' ||
-    body.day.trim() !== '' ||
-    !isNaN(new Date(body.year.trim(), body.month.trim(), body.day.trim())) ||
-    initDate.getDate() === body.day.trim() ||
-    initDate.getMonth() + 1 === body.month.trim()
-  ) {
-    certificateIssuedDate = initDate;
-  }
-
   return {
     // The string is trimmed for leading and trailing whitespace and then
     // copied across if they're in the POST body or are set to undefined if
     // they're missing.
-    certificateNumber: body.certificateNumber === undefined ? undefined : body.certificateNumber.trim(),
-    certificateIssued: certificateIssuedDate
+    cleanCertificateNumber: body.certificateNumber === undefined ? undefined : body.certificateNumber.trim(),
+    cleanCertificateIssuedYear: cleanYear(body.certificateIssuedYear),
+    cleanCertificateIssuedMonth: cleanMonth(body.certificateIssuedMonth),
+    cleanCertificateIssuedDay: cleanDay(body.certificateIssuedDay)
   };
 };
 
