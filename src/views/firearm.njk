@@ -33,20 +33,17 @@
   {% endif %}
 
   <h1 class="govuk-heading-xl">
-    Do you have a Firearm Certificate?
+    Firearm Certificate details
   </h1>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        <p class="govuk-body">
-            Please add the number of your certificate below and date obtained
-        </p>
-
         <form method="post">
           {{ govukInput({
-              label: {
-              text: "Number"
-              },
+            label: {
+              text: "Firearm Certificate number",
+              classes: "govuk-label--m"
+            },
               classes: "govuk-!-width-one-half",
               id: "certificate-number",
               name: "certificateNumber",
@@ -63,8 +60,14 @@
               errorMessage: {
               text: "Provide a valid date"
               } if model.certificateIssuedError,
-              label: {
-                text: "Date"
+            fieldset: {
+              legend: {
+                text: "Date of issue",
+                classes: "govuk-fieldset__legend--m"
+              }
+            hint: {
+              text: "For example, 31 3 1980"
+            },
               },
               classes: "govuk-!-width-one-half",
               id: "certificate-issued",
@@ -73,8 +76,10 @@
           }) }}
 
           {{ govukWarningText({
-              text: '' +
-              'If you do not hold a Firearm Certificate and want to continue with your application please contact the NatureScot Licensing Team.',
+            text: '' +
+              'If you do not hold a Firearm Certificate and want to continue ' +
+              'with your application please contact the NatureScot Licensing ' +
+              'Team.',
               iconFallbackText: "Warning"
           }) }}
 
