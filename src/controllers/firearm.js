@@ -126,34 +126,86 @@ const cleanInput = (body) => {
 };
 
 const firearmController = (request) => {
-  // Clean up the user's input before we store it in the session.
-  const cleanForm = cleanInput(request.body);
-  // Initialize dates for validation/error checking
-  const nowDate = new Date();
-  const minDate = new Date();
-  minDate.setFullYear(minDate.getFullYear() - 5);
+  // Clear any existing errors.
+  request.session.firearmError = false;
+  request.session.certificateNumberError = false;
+  request.session.certificateIssuedYearError = false;
+  request.session.certificateIssuedMonthError = false;
+  request.session.certificateIssuedDayError = false;
+  request.session.certificateIssuedInvalidError = false;
+  request.session.certificateIssuedFutureError = false;
+  request.session.certificateIssuedExpiredError = false;
 
-  request.session.certificateNumber = cleanForm.certificateNumber;
-  request.session.certificateIssued = cleanForm.certificateIssued;
+  // Clean up the user's input before we use it.
+  const {
+    cleanCertificateNumber,
+    cleanCertificateIssuedYear,
+    cleanCertificateIssuedMonth,
+    cleanCertificateIssuedDay
+  } = cleanInput(request.body);
 
-  request.session.certificateNumberError =
-    request.session.certificateNumber === undefined || request.session.certificateNumber.trim() === '';
-  // If issued date has returned from the cleanInput function as undefined.
-  request.session.certificateIssuedError = request.session.certificateIssued === undefined;
+  // Save the certificate number.
+  request.session.certificateNumber = cleanCertificateNumber;
 
-  // If issued date has returned from the cleanInput function successfully but is greater than todays date.
-  request.session.certificateIssuedFutureError =
-    cleanForm.certificateIssued !== undefined && cleanForm.certificateIssued > nowDate;
+  // Check the certificate number is 'valid'.
+  request.session.certificateNumberError = cleanCertificateNumber === undefined || cleanCertificateNumber === '';
 
-  // If issued date has returned from the cleanInput function successfully but is more than five
-  // years old from todays date.
-  request.session.certificateIssuedExpiredError =
-    cleanForm.certificateIssued !== undefined && cleanForm.certificateIssued < minDate;
+  // Save the certificate's issued date.
+  request.session.certificateIssuedYear = cleanCertificateIssuedYear;
+  request.session.certificateIssuedMonth = cleanCertificateIssuedMonth;
+  request.session.certificateIssuedDay = cleanCertificateIssuedDay;
 
-  // Check that any of the fields are invalid.
+  // Check the certificate's issued date's fields were valid.
+  request.session.certificateIssuedYearError = cleanCertificateIssuedYear === undefined;
+  request.session.certificateIssuedMonthError = cleanCertificateIssuedMonth === undefined;
+  request.session.certificateIssuedDayError = cleanCertificateIssuedDay === undefined;
+
+  if (
+    request.session.certificateIssuedYearError ||
+    request.session.certificateIssuedMonthError ||
+    request.session.certificateIssuedDayError
+  ) {
+    // If any individual fields were invalid, there's no point in even checking
+    // these yet.
+    request.session.certificateIssuedInvalidError = false;
+    request.session.certificateIssuedFutureError = false;
+    request.session.certificateIssuedExpiredError = false;
+  } else {
+    // Construct a date from our fields and see whether it's a valid date.
+    const testDate = new Date(cleanCertificateIssuedYear, cleanCertificateIssuedMonth - 1, cleanCertificateIssuedDay);
+    request.session.certificateIssuedInvalidError =
+      testDate.getFullYear() !== cleanCertificateIssuedYear ||
+      testDate.getMonth() + 1 !== cleanCertificateIssuedMonth ||
+      testDate.getDate() !== cleanCertificateIssuedDay;
+
+    // Check the constructed date isn't in the future.
+    const nowDate = new Date();
+    request.session.certificateIssuedFutureError = testDate > nowDate;
+
+    // Check the constructed date isn't more than 5 years ago.
+    const minDate = new Date(nowDate.getFullYear() - 5, nowDate.getMonth(), nowDate.getDate());
+    request.session.certificateIssuedExpiredError = testDate < minDate;
+
+    if (
+      !request.session.certificateIssuedInvalidError &&
+      !request.session.certificateIssuedFutureError &&
+      !request.session.certificateIssuedExpiredError
+    ) {
+      // If there's no errors on the constructed date, save it for later.
+      request.session.certificateIssuedDate = testDate;
+    } else {
+      // If there is an error though, just clear that field.
+      request.session.certificateIssuedDate = undefined;
+    }
+  }
+
+  // Check for any errors in the processing.
   request.session.firearmError =
     request.session.certificateNumberError ||
-    request.session.certificateIssuedError ||
+    request.session.certificateIssuedYearError ||
+    request.session.certificateIssuedMonthError ||
+    request.session.certificateIssuedDayError ||
+    request.session.certificateIssuedInvalidError ||
     request.session.certificateIssuedFutureError ||
     request.session.certificateIssuedExpiredError;
 
