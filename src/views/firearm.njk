@@ -58,21 +58,36 @@
 
           {{ govukDateInput({
             id: "certificate-issued",
-              errorMessage: {
-              text: "Provide a valid date"
-              } if model.certificateIssuedError,
             fieldset: {
               legend: {
                 text: "Date of issue",
                 classes: "govuk-fieldset__legend--m"
               }
+            },
             hint: {
               text: "For example, 31 3 1980"
             },
             classes: "govuk-!-width-one-half",
+            items: [
+              {
+                name: "certificateIssuedDay",
+                label: "Day",
+                value: model.certificateIssuedDay,
+                classes: "govuk-input--width-2"
               },
-              name: "certificateIssued",
-              value: model.certificateIssued
+              {
+                name: "certificateIssuedMonth",
+                label: "Month",
+                value: model.certificateIssuedMonth,
+                classes: "govuk-input--width-2"
+              },
+              {
+                name: "certificateIssuedYear",
+                label: "Year",
+                value: model.certificateIssuedYear,
+                classes: "govuk-input--width-4"
+              }
+            ]
           }) }}
 
           {{ govukWarningText({
