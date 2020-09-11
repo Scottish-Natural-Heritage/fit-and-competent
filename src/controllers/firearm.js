@@ -1,6 +1,40 @@
 import {ReturnState} from './_base.js';
 
 /**
+ * Process a string in to either it's integer `number` representation or return
+ * `undefined`.
+ *
+ * @param {string | undefined} dirtyValue The user's supplied integer value.
+ * @returns {number | undefined} The cleaned integer value.
+ */
+const cleanInt = (dirtyValue) => {
+  // Check we've not been given `undefined`.
+  if (dirtyValue === undefined) {
+    return undefined;
+  }
+
+  // Check we've not been given an empty string.
+  const trimmedValue = dirtyValue.trim();
+  if (trimmedValue === '') {
+    return undefined;
+  }
+
+  // Check we're only receiving digits, not text, negative numbers or floats.
+  if (!/^\d+$/.test(trimmedValue)) {
+    return undefined;
+  }
+
+  // Check it does actually parse correctly.
+  const valueAsNumber = Number.parseInt(trimmedValue, 10);
+  if (Number.isNaN(valueAsNumber)) {
+    return undefined;
+  }
+
+  // Return the fully validated integer value.
+  return valueAsNumber.valueOf();
+}
+
+/**
  * Clean the incoming POST request body to make it more compatible with the
  * database and its validation rules.
  *
