@@ -44,5 +44,4 @@ describe('Firearm page ', function () {
       .should('contain', 'You must enter the number found on your firearm certificate.')
       .and('contain', 'You must enter the date you aquired your firearm certificate.');
   });
-
 });

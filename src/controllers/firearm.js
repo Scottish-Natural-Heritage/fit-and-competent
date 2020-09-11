@@ -8,22 +8,26 @@ import {ReturnState} from './_base.js';
  * @returns {any} A json object that's just got our cleaned up fields on it.
  */
 const cleanInput = (body) => {
-  // initialize a new date and then use the set full year method using the day month year in the request body.
+  // Initialize a new date and then use the set full year method using the day month year in the request body.
   const initDate = new Date();
-  initDate.setFullYear(body.year.trim(), body.month.trim()-1, body.day.trim())
-  // date input separates captured data into three properties: day, month and year.
+  initDate.setFullYear(body.year.trim(), body.month.trim() - 1, body.day.trim());
+  // Date input separates captured data into three properties: day, month and year,
   // therefor there is a check needed to ensure all three properties have been provided.
-  // if they have not been provided then it needs to set the date to undefined.
-  // if all three properties have been provided it needs to then check that the values provided
+  // If they have not been provided then it needs to set the date to undefined.
+  // If all three properties have been provided it needs to then check that the values provided
   // can produce a valid date if so then set the date, if not then set the date to undefined.
-  // the final check is to ensure the user has provided a valid date something like 01/01/2020
-  // and not something like 31/02/2020.
-  if(body.year.trim() === '' || body.month.trim() === '' || body.day.trim() === '' ||
-     isNaN(new Date(body.year.trim(), body.month.trim(), body.day.trim())) ||
-     (initDate.getDate() != body.day.trim()) || (initDate.getMonth()+ 1 != body.month.trim())) {
-    var certificateIssued = undefined;
-  } else {
-    var certificateIssued = initDate;
+  // The final check is to ensure the user has provided a valid date something like 01/01/2020
+  // and not something like 31/02/2020
+  let certificateIssuedDate;
+  if (
+    body.year.trim() !== '' ||
+    body.month.trim() !== '' ||
+    body.day.trim() !== '' ||
+    !isNaN(new Date(body.year.trim(), body.month.trim(), body.day.trim())) ||
+    initDate.getDate() === body.day.trim() ||
+    initDate.getMonth() + 1 === body.month.trim()
+  ) {
+    certificateIssuedDate = initDate;
   }
 
   return {
@@ -31,14 +35,14 @@ const cleanInput = (body) => {
     // copied across if they're in the POST body or are set to undefined if
     // they're missing.
     certificateNumber: body.certificateNumber === undefined ? undefined : body.certificateNumber.trim(),
-    certificateIssued: certificateIssued === undefined ? undefined : certificateIssued
+    certificateIssued: certificateIssuedDate
   };
 };
 
 const firearmController = (request) => {
   // Clean up the user's input before we store it in the session.
   const cleanForm = cleanInput(request.body);
-  // initialize dates for validation/error checking
+  // Initialize dates for validation/error checking
   const nowDate = new Date();
   const minDate = new Date();
   minDate.setFullYear(minDate.getFullYear() - 5);
@@ -46,22 +50,19 @@ const firearmController = (request) => {
   request.session.certificateNumber = cleanForm.certificateNumber;
   request.session.certificateIssued = cleanForm.certificateIssued;
 
-
-  request.session.certificateNumberError = request.session.certificateNumber === undefined || request.session.certificateNumber.trim() === '';
+  request.session.certificateNumberError =
+    request.session.certificateNumber === undefined || request.session.certificateNumber.trim() === '';
   // If issued date has returned from the cleanInput function as undefined.
-  request.session.certificateIssuedError =
-    request.session.certificateIssued === undefined;
+  request.session.certificateIssuedError = request.session.certificateIssued === undefined;
 
   // If issued date has returned from the cleanInput function successfully but is greater than todays date.
   request.session.certificateIssuedFutureError =
-    cleanForm.certificateIssued !== undefined &&
-    cleanForm.certificateIssued > nowDate;
+    cleanForm.certificateIssued !== undefined && cleanForm.certificateIssued > nowDate;
 
   // If issued date has returned from the cleanInput function successfully but is more than five
   // years old from todays date.
   request.session.certificateIssuedExpiredError =
-    cleanForm.certificateIssued !== undefined &&
-    cleanForm.certificateIssued < minDate;
+    cleanForm.certificateIssued !== undefined && cleanForm.certificateIssued < minDate;
 
   // Check that any of the fields are invalid.
   request.session.firearmError =
