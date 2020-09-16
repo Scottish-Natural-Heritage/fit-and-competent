@@ -1,0 +1,57 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% block content %}
+  <h1 class="govuk-heading-xl">
+    What would you like to do?
+  </h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <p class="govuk-body">
+        Select the option that applies:
+      </p>
+
+      <form method="post">
+        {{ govukCheckboxes({
+        idPrefix: "application-type",
+        name: "applicationType",
+        errorMessage: {
+          text: "You must select the type of application you want to proceed with."
+        } if model.applicationTypeError,
+        items: [
+          {
+            value: "new",
+            text: "Apply for a new registration",
+            checked: model.applicationType === true
+          }
+        ]
+      }) }}
+
+        {{ govukButton({
+        text: "Start now",
+        isStartButton: true,
+        classes: "naturescot-forward-button"
+        }) }}
+      </form>
+
+      {{ govukWarningText({
+        text: 'You may need to ammend your registration if any of the details you provided when you registered change.',
+        iconFallbackText: 'Warning'
+      }) }}
+
+      {{ govukWarningText({
+        text: 'You may need to surrender your registration if you are convicted of a wildlife crime or a firearms crime.',
+        iconFallbackText: 'Warning'
+      }) }}
+
+      <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#top-of-page">
+        Back to top
+      </a>
+    </div>
+  </div>
+
+{% endblock %}
