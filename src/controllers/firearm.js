@@ -135,6 +135,7 @@ const firearmController = (request) => {
   request.session.certificateIssuedInvalidError = false;
   request.session.certificateIssuedFutureError = false;
   request.session.certificateIssuedExpiredError = false;
+  request.session.certificateIssuedDateError = false;
 
   // Clean up the user's input before we use it.
   const {
@@ -170,6 +171,7 @@ const firearmController = (request) => {
     request.session.certificateIssuedInvalidError = false;
     request.session.certificateIssuedFutureError = false;
     request.session.certificateIssuedExpiredError = false;
+    request.session.certificateIssuedDateError = true;
   } else {
     // Construct a date from our fields and see whether it's a valid date.
     const testDate = new Date(cleanCertificateIssuedYear, cleanCertificateIssuedMonth - 1, cleanCertificateIssuedDay);
@@ -196,6 +198,7 @@ const firearmController = (request) => {
     } else {
       // If there is an error though, just clear that field.
       request.session.certificateIssuedDate = undefined;
+      request.session.certificateIssuedDateError = true;
     }
   }
 
@@ -207,7 +210,8 @@ const firearmController = (request) => {
     request.session.certificateIssuedDayError ||
     request.session.certificateIssuedInvalidError ||
     request.session.certificateIssuedFutureError ||
-    request.session.certificateIssuedExpiredError;
+    request.session.certificateIssuedExpiredError ||
+    request.session.certificateIssuedDateError;
 
   // If we've seen an error in any of the fields, our visitor needs to go back
   // and fix them.
