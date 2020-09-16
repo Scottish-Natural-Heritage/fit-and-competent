@@ -6,6 +6,22 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% set dateErrors %}
+  {% if model.certificateIssuedDayError %}
+    <p>Enter a valid day</p>
+  {% elif model.certificateIssuedMonthError %}
+    <p>Enter a valid month</p>
+  {% elif model.certificateIssuedYearError %}
+    <p>Enter a valid year</p>
+  {% elif model.certificateIssuedFutureError %}
+    <p>The date your firearms certificate was issued must be in the past</p>
+  {% elif model.certificateIssuedExpiredError %}
+    <p>The date your firearms certificate was issued must be less than five years old</p>
+  {% else %}
+    <p>Enter a valid date</p>
+  {% endif %}
+{% endset -%}
+
 {% block content %}
 
   {% if model.firearmError %}
@@ -19,10 +35,22 @@
         {
             text: "You must enter the date you aquired your firearm certificate.",
             href: "#certificate-issued-error"
-        } if model.certificateIssuedError,
+        } if model.certificateIssuedInvalidError,
         {
-            text: "Your firearm certificate iisue date can not be a future date",
-            href: "#certificate-number-error"
+            text: "Please enter a valid year.",
+            href: "#certificate-issued-error"
+        } if model.certificateIssuedYearError,
+        {
+            text: "Please enter a valid month.",
+            href: "#certificate-issued-error"
+        } if model.certificateIssuedMonthError,
+        {
+            text: "Please enter a valid day.",
+            href: "#certificate-issued-error"
+        } if model.certificateIssuedDayError,
+        {
+            text: "Your firearm certificate issue date can not be a future date.",
+            href: "#certificate-issued-error"
         } if model.certificateIssuedFutureError,
         {
             text: "Your firearm certificate must be less than five years old.",
@@ -58,6 +86,7 @@
 
           {{ govukDateInput({
             id: "certificate-issued",
+            name: "certificateIssued",
             fieldset: {
               legend: {
                 text: "Date of issue",
@@ -67,25 +96,27 @@
             hint: {
               text: "For example, 31 3 1980"
             },
-            classes: "govuk-!-width-one-half",
+            errorMessage: {
+                html: dateErrors
+            } if model.certificateIssuedDateError,
             items: [
               {
                 name: "certificateIssuedDay",
                 label: "Day",
                 value: model.certificateIssuedDay,
-                classes: "govuk-input--width-2"
+                classes: "govuk-input--width-2 govuk-input--error" if model.certificateIssuedDayError else "govuk-input--width-2"
               },
               {
                 name: "certificateIssuedMonth",
                 label: "Month",
                 value: model.certificateIssuedMonth,
-                classes: "govuk-input--width-2"
+                classes: "govuk-input--width-2 govuk-input--error" if model.certificateIssuedMonthError else "govuk-input--width-2"
               },
               {
                 name: "certificateIssuedYear",
                 label: "Year",
-                value: model.certificateIssuedYear,
-                classes: "govuk-input--width-4"
+                value: model.certificateIssuedYear, 
+                classes: "govuk-input--width-4 govuk-input--error" if model.certificateIssuedYearError else "govuk-input--width-4"
               }
             ]
           }) }}
