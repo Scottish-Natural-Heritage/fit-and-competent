@@ -8,6 +8,7 @@ import InformationController from './controllers/information.js';
 import GdprController from './controllers/gdpr.js';
 import ConvictionController from './controllers/conviction.js';
 import FirearmController from './controllers/firearm.js';
+import amendOrRenewController from './controllers/amend-or-renew.js';
 
 // Configure all of the pages and routes.
 
@@ -51,7 +52,16 @@ router.use(
   Page({
     path: 'firearm',
     back: 'conviction',
+    positiveForward: 'amend-or-renew',
     controller: FirearmController
+  })
+);
+
+router.use(
+  Page({
+    path: 'amend-or-renew',
+    back: 'firearm',
+    controller: amendOrRenewController
   })
 );
 
