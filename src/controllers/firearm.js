@@ -188,6 +188,9 @@ const firearmController = (request) => {
     const minDate = new Date(nowDate.getFullYear() - 5, nowDate.getMonth(), nowDate.getDate());
     request.session.certificateIssuedExpiredError = testDate < minDate;
 
+    request.session.validationExpiredDateString = `${nowDate.getDate()} ${new Intl.DateTimeFormat('en-GB', {
+      month: 'long'
+    }).format(nowDate)} ${minDate.getFullYear()}`;
     if (
       !request.session.certificateIssuedInvalidError &&
       !request.session.certificateIssuedFutureError &&

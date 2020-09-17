@@ -6,19 +6,20 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
 {% set dateErrors %}
   {% if model.certificateIssuedDayError %}
-    <p>Enter a valid day</p>
+    <p>The date your firearms certificate was issued must include a day</p>
   {% elif model.certificateIssuedMonthError %}
-    <p>Enter a valid month</p>
+    <p>The date your firearms certificate was issued must include a month</p>
   {% elif model.certificateIssuedYearError %}
-    <p>Enter a valid year</p>
+    <p>The date your firearms certificate was issued must include a year</p>
   {% elif model.certificateIssuedFutureError %}
     <p>The date your firearms certificate was issued must be in the past</p>
   {% elif model.certificateIssuedExpiredError %}
-    <p>The date your firearms certificate was issued must be less than five years old</p>
+    <p>The date your firearm certificate was issued must be after {{model.validationExpiredDateString}}</p>
   {% else %}
-    <p>Enter a valid date</p>
+    <p>You must enter the date you aquired your firearm certificate</p>
   {% endif %}
 {% endset -%}
 
@@ -29,31 +30,31 @@
       titleText: "There is a problem",
       errorList: [
         {
-            text: "You must enter the number found on your firearm certificate.",
+            text: "You must enter the number found on your firearm certificate",
             href: "#certificate-number-error"
         } if model.certificateNumberError,
         {
-            text: "You must enter the date you aquired your firearm certificate.",
+            text: "You must enter the date you aquired your firearm certificate",
             href: "#certificate-issued-error"
         } if model.certificateIssuedInvalidError,
         {
-            text: "Please enter a valid year.",
+            text: "The date your firearms certificate was issued must include a year",
             href: "#certificate-issued-error"
         } if model.certificateIssuedYearError,
         {
-            text: "Please enter a valid month.",
+            text: "The date your firearms certificate was issued must include a month",
             href: "#certificate-issued-error"
         } if model.certificateIssuedMonthError,
         {
-            text: "Please enter a valid day.",
+            text: "The date your firearms certificate was issued must include a day",
             href: "#certificate-issued-error"
         } if model.certificateIssuedDayError,
         {
-            text: "Your firearm certificate issue date can not be a future date.",
+            text: "The date your firearms certificate was issued must be in the past",
             href: "#certificate-issued-error"
         } if model.certificateIssuedFutureError,
         {
-            text: "Your firearm certificate must be less than five years old.",
+            html: "The date your firearm certificate was issued must be after " + model.validationExpiredDateString,
             href: "#certificate-issued-error"
         } if model.certificateIssuedExpiredError
       ]
@@ -104,19 +105,34 @@
                 name: "certificateIssuedDay",
                 label: "Day",
                 value: model.certificateIssuedDay,
-                classes: "govuk-input--width-2 govuk-input--error" if model.certificateIssuedDayError else "govuk-input--width-2"
+                classes: "govuk-input--width-2 govuk-input--error" 
+                if model.certificateIssuedDayError or
+                model.certificateIssuedFutureError or
+                model.certificateIssuedExpiredError or
+                model.certificateIssuedInvalidError
+                else "govuk-input--width-2"
               },
               {
                 name: "certificateIssuedMonth",
                 label: "Month",
                 value: model.certificateIssuedMonth,
-                classes: "govuk-input--width-2 govuk-input--error" if model.certificateIssuedMonthError else "govuk-input--width-2"
+                classes: "govuk-input--width-2 govuk-input--error"
+                if model.certificateIssuedMonthError or
+                model.certificateIssuedFutureError or
+                model.certificateIssuedExpiredError or
+                model.certificateIssuedInvalidError
+                else "govuk-input--width-2"
               },
               {
                 name: "certificateIssuedYear",
                 label: "Year",
                 value: model.certificateIssuedYear, 
-                classes: "govuk-input--width-4 govuk-input--error" if model.certificateIssuedYearError else "govuk-input--width-4"
+                classes: "govuk-input--width-4 govuk-input--error" 
+                if model.certificateIssuedYearError or
+                model.certificateIssuedFutureError or
+                model.certificateIssuedExpiredError or
+                model.certificateIssuedInvalidError
+                else "govuk-input--width-4"
               }
             ]
           }) }}

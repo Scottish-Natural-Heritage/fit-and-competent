@@ -41,10 +41,10 @@ describe('Firearm page ', function () {
     cy.get('h2#error-summary-title').should('contain', 'There is a problem');
 
     cy.get('.govuk-error-summary ul li a')
-      .should('contain', 'You must enter the number found on your firearm certificate.')
-      .and('contain', 'Please enter a valid year')
-      .and('contain', 'Please enter a valid month')
-      .and('contain', 'Please enter a valid day');
+      .should('contain', 'You must enter the number found on your firearm certificate')
+      .and('contain', 'The date your firearms certificate was issued must include a year')
+      .and('contain', 'The date your firearms certificate was issued must include a month')
+      .and('contain', 'The date your firearms certificate was issued must include a day');
   });
 
   it('filled-out entries with future date + main button should navigate to same page with error', function () {
@@ -62,7 +62,7 @@ describe('Firearm page ', function () {
 
     cy.get('.govuk-error-summary ul li a').should(
       'contain',
-      'Your firearm certificate issue date can not be a future date.'
+      'The date your firearms certificate was issued must be in the past'
     );
   });
 
@@ -81,7 +81,7 @@ describe('Firearm page ', function () {
 
     cy.get('.govuk-error-summary ul li a').should(
       'contain',
-      'Your firearm certificate must be less than five years old.'
+      'The date your firearm certificate was issued must be after'
     );
   });
 });
