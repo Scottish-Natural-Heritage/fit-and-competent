@@ -19,7 +19,7 @@
   {% elif model.certificateIssuedExpiredError %}
     <p>The date your firearm certificate was issued must be after {{model.validationExpiredDateString}}</p>
   {% else %}
-    <p>You must enter the date you aquired your firearm certificate</p>
+    <p>The date your firearms certificate was issued must be a real date</p>
   {% endif %}
 {% endset -%}
 
@@ -34,7 +34,7 @@
             href: "#certificate-number-error"
         } if model.certificateNumberError,
         {
-            text: "You must enter the date you aquired your firearm certificate",
+            text: "The date your firearms certificate was issued must be a real date",
             href: "#certificate-issued-error"
         } if model.certificateIssuedInvalidError,
         {
