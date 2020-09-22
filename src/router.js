@@ -7,6 +7,7 @@ import StartController from './controllers/start.js';
 import InformationController from './controllers/information.js';
 import GdprController from './controllers/gdpr.js';
 import ConvictionController from './controllers/conviction.js';
+import FirearmController from './controllers/firearm.js';
 
 // Configure all of the pages and routes.
 
@@ -41,7 +42,16 @@ router.use(
     path: 'conviction',
     back: 'gdpr',
     negativeForward: 'conviction-stop',
+    positiveForward: 'firearm',
     controller: ConvictionController
+  })
+);
+
+router.use(
+  Page({
+    path: 'firearm',
+    back: 'conviction',
+    controller: FirearmController
   })
 );
 
