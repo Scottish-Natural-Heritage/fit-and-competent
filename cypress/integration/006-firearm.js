@@ -6,7 +6,6 @@ describe('Firearm page directly', function () {
 });
 
 describe('Firearm page ', function () {
-  const todaysDate = Cypress.moment().format('YYYY');
   beforeEach(() => {
     // GET `/start`
     cy.visit('/start');
