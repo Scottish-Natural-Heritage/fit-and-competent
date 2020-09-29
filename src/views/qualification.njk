@@ -1,0 +1,420 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
+{% set dsc1NumberErrors %}
+  {% if model.dsc1InvalidCharacterError %}
+    <p>The number on your DSC 1 Qualification must only contain numbers</p>
+  {% else %}
+    <p>The number on your DSC 1 Qualification must be less than or equal to 5 characters</p>
+  {% endif %}
+{% endset -%}
+
+{% set dsc2NumberErrors %}
+  {% if model.dsc2InvalidCharacterError %}
+    <p>The number on your DSC 2 Qualification must only contain numbers</p>
+  {% else %}
+    <p>The number on your DSC 2 Qualification must be less than or equal to 5 characters</p>
+  {% endif %}
+{% endset -%}
+
+{% set dsc1DateErrors %}
+  {% if model.dsc1DayError %}
+    <p>The date you obtained your DSC 1 qualification must include a day</p>
+  {% elif model.dsc1MonthError %}
+    <p>The date you obtained your DSC 1 qualification must include a month</p>
+  {% elif model.dsc1YearError %}
+    <p>The date you obtained your DSC 1 qualification must include a year</p>
+  {% elif model.dsc1FutureError %}
+    <p>The date you obtained your DSC 1 qualification must be in the past</p>
+  {% else %}
+    <p>The date you obtained your DSC 1 qualification must be a real date</p>
+  {% endif %}
+{% endset -%}
+
+{% set dsc2DateErrors %}
+  {% if model.dsc2DayError %}
+    <p>The date you obtained your DSC 2 qualification must include a day</p>
+  {% elif model.dsc2MonthError %}
+    <p>The date you obtained your DSC 2 qualification must include a month</p>
+  {% elif model.dsc2YearError %}
+    <p>The date you obtained your DSC 2 qualification must include a year</p>
+  {% elif model.dsc2FutureError %}
+    <p>The date you obtained your DSC 2 qualification must be in the past</p>
+  {% else %}
+    <p>The date you obtained your DSC 2 qualification must be a real date</p>
+  {% endif %}
+{% endset -%}
+
+{% set otherDateErrors %}
+  {% if model.otherDayError %}
+    <p>The date you obtained your qualification must include a day</p>
+  {% elif model.otherMonthError %}
+    <p>The date you obtained your qualification must include a month</p>
+  {% elif model.otherYearError %}
+    <p>The date you obtained your qualification must include a year</p>
+  {% elif model.otherFutureError %}
+    <p>The date you obtained your qualification must be in the past</p>
+  {% else %}
+    <p>The date you obtained your qualification must be a real date</p>
+  {% endif %}
+{% endset -%}
+
+{% block content %}
+
+  {% if model.qualificationError %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+            text: "The number on your DSC 1 Qualification must only contain numbers",
+            href: "#dsc1-number-error"
+        } if model.dsc1InvalidCharacterError,
+        {
+            text: "The number on your DSC 1 Qualification must be less than or equal to 5 characters",
+            href: "#dsc1-number-error"
+        } if model.dsc1LengthError,
+        {
+            text: "The date you obtained your DSC 1 qualification must be a real date",
+            href: "#dsc1-date-error"
+        } if model.dsc1InvalidError,
+        {
+            text: "The date you obtained your DSC 1 qualification must be in the past",
+            href: "#dsc1-date-error"
+        } if model.dsc1FutureError,
+        {
+            text: "The date you obtained your DSC 1 qualification must include a day",
+            href: "#dsc1-date-error"
+        } if model.dsc1DayError,
+        {
+            text: "The date you obtained your DSC 1 qualification must include a month",
+            href: "#dsc1-date-error"
+        } if model.dsc1MonthError,
+        {
+            text: "The date you obtained your DSC 1 qualification must include a year",
+            href: "#dsc1-date-error"
+        } if model.dsc1YearError,
+        {
+            text: "The number on your DSC 2 Qualification must only contain numbers",
+            href: "#dsc2-number-error"
+        } if model.dsc2InvalidCharacterError,
+        {
+            text: "The number on your DSC 2 Qualification must be less than or equal to 5 characters",
+            href: "#dsc2-number-error"
+        } if model.dsc2LengthError,
+        {
+            text: "The date you obtained your DSC 2 qualification must be a real date",
+            href: "#dsc2-date-error"
+        } if model.dsc2InvalidError,
+        {
+            text: "The date you obtained your DSC 2 qualification must be in the past",
+            href: "#dsc2-date-error"
+        } if model.dsc2FutureError,
+        {
+            text: "The date you obtained your DSC 2 qualification must include a day",
+            href: "#dsc2-date-error"
+        } if model.dsc2DayError,
+        {
+            text: "The date you obtained your DSC 2 qualification must include a month",
+            href: "#dsc2-date-error"
+        } if model.dsc2MonthError,
+        {
+            text: "The date you obtained your DSC 2 qualification must include a year",
+            href: "#dsc2-date-error"
+        } if model.dsc2YearError,
+        {
+            text: "Enter the Name of your certificate",
+            href: "#other-name-error"
+        } if model.otherNameError,
+        {
+            text: "The date you obtained your qualification must be in the past",
+            href: "#other-date-error"
+        } if model.otherFutureError,
+        {
+            text: "The date you obtained your qualification must be a real date",
+            href: "#other-date-error"
+        } if model.otherInvalidError,
+                        {
+            text: "The date you obtained your qualification must include a day",
+            href: "#other-date-error"
+        } if model.otherDayError,
+        {
+            text: "The date you obtained your qualification must include a month",
+            href: "#other-date-error"
+        } if model.otherMonthError,
+        {
+            text: "The date you obtained your qualification must include a year",
+            href: "#other-date-error"
+        } if model.otherYearError,
+        {
+            text: "You must provide details for at least one qualification",
+            href: "#other-date-error"
+        } if model.emptyPageError
+      ]
+    }) }}
+  {% endif %}
+
+  <h1 class="govuk-heading-xl">
+    What are the details of your deer stalking certificate?
+  </h1>
+  <p class="govuk-body">
+    Please add the number and the date obtained of the certificate you use to apply
+  </p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <form method="post">
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              <h2>DSC 1</h2>
+            </div>
+            <div class="govuk-grid-column-one-half">
+              <h2>DSC 2</h2>
+            </div>
+          </div>
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+               {{ govukInput({
+                  label: {
+                    text: "Number",
+                    classes: "govuk-label--m"
+                  },
+                  classes: "govuk-!-width-one-half",
+                  id: "dsc1-number",
+                  name: "dsc1Number",
+                  value: model.dsc1Number,
+                  errorMessage: {
+                    html: dsc1NumberErrors
+                  } if model.dsc1NumberError,
+                  attributes: {
+                    spellcheck: "false"
+                  }
+                }) }}
+            </div>
+            <div class="govuk-grid-column-one-half">
+               {{ govukInput({
+                  label: {
+                    text: "Number",
+                    classes: "govuk-label--m"
+                  },
+                  classes: "govuk-!-width-one-half",
+                  id: "dsc2-number",
+                  name: "dsc2Number",
+                  value: model.dsc2Number,
+                  errorMessage: {
+                    html: dsc2NumberErrors
+                  } if model.dsc2NumberError,
+                  attributes: {
+                    spellcheck: "false"
+                  }
+                }) }}
+            </div>
+          </div>
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              {{ govukDateInput({
+                id: "dsc1-date",
+                name: "dsc1Date",
+                fieldset: {
+                  legend: {
+                    text: "Date",
+                    classes: "govuk-fieldset__legend--m"
+                  }
+                },
+                hint: {
+                  text: "For example, 31 3 1980"
+                },
+                errorMessage: {
+                    html: dsc1DateErrors
+                } if model.dsc1DateError,
+                items: [
+                  {
+                    name: "dsc1Day",
+                    label: "Day",
+                    value: model.dsc1Day,
+                    classes: "govuk-input--width-2 govuk-input--error" 
+                    if model.dsc1FutureError or
+                    model.dsc1InvalidError
+                    else "govuk-input--width-2"
+                  },
+                  {
+                    name: "dsc1Month",
+                    label: "Month",
+                    value: model.dsc1Month,
+                    classes: "govuk-input--width-2 govuk-input--error" 
+                    if model.dsc1FutureError or
+                    model.dsc1InvalidError
+                    else "govuk-input--width-2"
+                  },
+                  {
+                    name: "dsc1Year",
+                    label: "Year",
+                    value: model.dsc1Year, 
+                       classes: "govuk-input--width-4 govuk-input--error" 
+                    if model.dsc1FutureError or
+                    model.dsc1InvalidError
+                    else "govuk-input--width-4"
+                  }
+                ]
+              }) }}
+            </div>
+            <div class="govuk-grid-column-one-half">
+              {{ govukDateInput({
+                id: "dsc2-date",
+                name: "dsc2Date",
+                fieldset: {
+                  legend: {
+                    text: "Date",
+                    classes: "govuk-fieldset__legend--m"
+                  }
+                },
+                hint: {
+                  text: "For example, 31 3 1980"
+                },
+                errorMessage: {
+                    html: dsc2DateErrors
+                } if model.dsc2DateError,
+                items: [
+                  {
+                    name: "dsc2Day",
+                    label: "Day",
+                    value: model.dsc2Day,
+                    classes: "govuk-input--width-2 govuk-input--error" 
+                    if model.dsc2FutureError or
+                    model.dsc2InvalidError
+                    else "govuk-input--width-2"
+                  },
+                  {
+                    name: "dsc2Month",
+                    label: "Month",
+                    value: model.dsc2Month,
+                    classes: "govuk-input--width-2 govuk-input--error" 
+                    if model.dsc2FutureError or
+                    model.dsc2InvalidError
+                    else "govuk-input--width-2"
+                  },
+                  {
+                    name: "dsc2Year",
+                    label: "Year",
+                    value: model.dsc2Year, 
+                    classes: "govuk-input--width-4 govuk-input--error" 
+                    if model.dsc2FutureError or
+                    model.dsc2InvalidError
+                    else "govuk-input--width-4"
+                  }
+                ]
+              }) }}
+            </div>
+          </div>
+
+          {{ govukWarningText({
+            text: '' +
+              'If you only hold DSC1 you will be asked to provide the name ' +
+              'and email address of a referee who we can contact to verify ' +
+              'your application.',
+            iconFallbackText: "Warning"
+          }) }}
+
+          {{ govukWarningText({
+            text: '' +
+              'If you wish to apply using an equivelant hunting certificate ' +
+              '(must meet the same National Occupational Standards as DSC Level 1) ' +
+              'insert its name and the date obtained. we may contact you to determine ' +
+              'your understanding of relevant Scottish Legislation.',
+            iconFallbackText: "Warning"
+          }) }}
+
+          {{ govukInput({
+            label: {
+              text: "Name",
+              classes: "govuk-label--m"
+            },
+            classes: "govuk-!-width-one-half",
+            id: "other-name",
+            name: "otherName",
+            value: model.otherName,
+            errorMessage: {
+              text: "Enter the Name of your certificate"
+            } if model.otherNameError,
+            attributes: {
+              spellcheck: "false"
+            }
+          }) }}
+
+          {{ govukDateInput({
+                id: "other-date",
+                name: "otherDate",
+                fieldset: {
+                  legend: {
+                    text: "Date",
+                    classes: "govuk-fieldset__legend--m"
+                  }
+                },
+                hint: {
+                  text: "For example, 31 3 1980"
+                },
+                errorMessage: {
+                    html: otherDateErrors
+                } if model.otherDateError,
+                items: [
+                  {
+                    name: "otherDay",
+                    label: "Day",
+                    value: model.otherDay,
+                    classes: "govuk-input--width-2 govuk-input--error" 
+                    if model.otherFutureError or
+                    model.otherInvalidError
+                    else "govuk-input--width-2"
+                  },
+                  {
+                    name: "otherMonth",
+                    label: "Month",
+                    value: model.otherMonth,
+                    classes: "govuk-input--width-2 govuk-input--error" 
+                    if model.otherFutureError or
+                    model.otherInvalidError
+                    else "govuk-input--width-2"
+                  },
+                  {
+                    name: "otherYear",
+                    label: "Year",
+                    value: model.otherYear, 
+                    classes: "govuk-input--width-4 govuk-input--error" 
+                    if model.otherFutureError or
+                    model.otherInvalidError
+                    else "govuk-input--width-4"
+                  }
+                ]
+              }) }}
+
+        <p class="govuk-body">
+          If you do not hold a DSC Level 1 or 2 or equivelant and still want to apply then contact the NatureScot Licensing Team 
+          for advice.
+        </p>
+          {{ govukButton({
+          text: "Continue",
+          classes: "naturescot-forward-button"
+          }) }}
+        </form>
+      <h3 class="govuk-heading-s">Email</h3>
+      <ul class="govuk-list">
+        <li><a class="govuk-link" href="mailto:licensing@nature.scot">licensing@nature.scot</a></li>
+      </ul>
+      <h3 class="govuk-heading-s">Telephone</h3>
+      <ul class="govuk-list">
+        <li>01463 725 364</li>
+        <li>Monday to Friday, 10am to 4pm (except public holidays)</li>
+      </ul>
+      <p class="govuk-body">
+        <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="https://www.gov.uk/call-charges">Find out about call charges&nbsp;(opens in new tab)</a>
+      </p>
+      <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#top-of-page">
+        Back to top
+      </a>
+    </div>
+  </div>
+{% endblock %}
