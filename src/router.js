@@ -8,7 +8,7 @@ import InformationController from './controllers/information.js';
 import GdprController from './controllers/gdpr.js';
 import ConvictionController from './controllers/conviction.js';
 import FirearmController from './controllers/firearm.js';
-
+import QualificationController from './controllers/qualification.js';
 // Configure all of the pages and routes.
 
 router.use(
@@ -51,7 +51,16 @@ router.use(
   Page({
     path: 'firearm',
     back: 'conviction',
+    positiveForward: 'qualification',
     controller: FirearmController
+  })
+);
+
+router.use(
+  Page({
+    path: 'qualification',
+    back: 'firearm',
+    controller: QualificationController
   })
 );
 
