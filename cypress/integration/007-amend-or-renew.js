@@ -1,10 +1,3 @@
-describe('Amend or Renew page directly', function () {
-  it('should prevent access', function () {
-    cy.visit('/amend-or-renew', {failOnStatusCode: false});
-    cy.get('h1').should('contain', 'there is a problem with the service');
-  });
-});
-
 describe('Amend or Renew page ', function () {
   const todaysDate = Cypress.moment().format('YYYY');
 
@@ -35,10 +28,5 @@ describe('Amend or Renew page ', function () {
     cy.get('#main-content form input[type="text"]#certificate-issued-certificateIssuedMonth').type('01');
     cy.get('#main-content form input[type="text"]#certificate-issued-certificateIssuedYear').type(todaysDate);
     cy.get('#main-content form button.naturescot-forward-button').click();
-  });
-
-  it('should allow access if the user visits all the pages in order', function () {
-    cy.visit('/amend-or-renew');
-    cy.get('h1').should('contain', 'What would you like to do?');
   });
 });
