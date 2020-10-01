@@ -6,7 +6,7 @@ const amendOrRenewController = (request) => {
     // Then we don't have any errors. This clears any previous errors.
     request.session.applicationTypeError = false;
     // Save the decision.
-    request.session.applicationType = false;
+    request.session.applicationType = 'new';
     // Follow the 'new path'.
     return ReturnState.Positive;
   }

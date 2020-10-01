@@ -3,7 +3,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/accordion/macro.njk" import govukAccordion %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
-{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% block content %}
   <h1 class="govuk-heading-xl">
     What would you like to do?
@@ -16,8 +16,10 @@
       </p>
 
       <form method="post">
-        {{ govukCheckboxes({
-        idPrefix: "application-type",
+
+      {{ govukRadios({
+        classes: "govuk-radios--inline",
+        id: "application-type",
         name: "applicationType",
         errorMessage: {
           text: "You must select the type of application you want to proceed with."
@@ -26,7 +28,7 @@
           {
             value: "new",
             text: "Apply for a new registration",
-            checked: model.applicationType === true
+            checked: model.applicationType === "new"
           }
         ]
       }) }}
