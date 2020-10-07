@@ -1,0 +1,173 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+
+{% set dsc1NumberErrors %}
+  {% if model.dsc1InvalidCharacterError %}
+    <p>The number on your DSC 1 Qualification must only contain numbers</p>
+  {% else %}
+    <p>The number on your DSC 1 Qualification must be less than or equal to 5 characters</p>
+  {% endif %}
+{% endset -%}
+
+{% set dsc1DateErrors %}
+  {% if model.dsc1DayError %}
+    <p>The date you obtained your DSC 1 qualification must include a day</p>
+  {% elif model.dsc1MonthError %}
+    <p>The date you obtained your DSC 1 qualification must include a month</p>
+  {% elif model.dsc1YearError %}
+    <p>The date you obtained your DSC 1 qualification must include a year</p>
+  {% elif model.dsc1FutureError %}
+    <p>The date you obtained your DSC 1 qualification must be in the past</p>
+  {% else %}
+    <p>The date you obtained your DSC 1 qualification must be a real date</p>
+  {% endif %}
+{% endset -%}
+
+{% block content %}
+
+  {% if model.dsc1Error %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+            text: "The number on your DSC 1 Qualification must only contain numbers",
+            href: "#dsc1-number-error"
+        } if model.dsc1InvalidCharacterError,
+        {
+            text: "The number on your DSC 1 Qualification must be less than or equal to 5 characters",
+            href: "#dsc1-number-error"
+        } if model.dsc1LengthError,
+        {
+            text: "The date you obtained your DSC 1 qualification must be a real date",
+            href: "#dsc1-date-error"
+        } if model.dsc1InvalidError,
+        {
+            text: "The date you obtained your DSC 1 qualification must be in the past",
+            href: "#dsc1-date-error"
+        } if model.dsc1FutureError,
+        {
+            text: "The date you obtained your DSC 1 qualification must include a day",
+            href: "#dsc1-date-error"
+        } if model.dsc1DayError,
+        {
+            text: "The date you obtained your DSC 1 qualification must include a month",
+            href: "#dsc1-date-error"
+        } if model.dsc1MonthError,
+        {
+            text: "The date you obtained your DSC 1 qualification must include a year",
+            href: "#dsc1-date-error"
+        } if model.dsc1YearError,
+        {
+            text: "You must provide qualification details",
+            href: "#dsc1-number-error"
+        } if model.emptyPageError
+      ]
+    }) }}
+  {% endif %}
+
+  <h1 class="govuk-heading-xl">
+    Enter your Dear Stalking Certificate 1 details below
+  </h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <form method="post">
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+               {{ govukInput({
+                  label: {
+                    text: "Dear Stalking Certificate 1 Number",
+                    classes: "govuk-label--m"
+                  },
+                  classes: "govuk-!-width-one-half",
+                  id: "dsc1-number",
+                  name: "dsc1Number",
+                  value: model.dsc1Number,
+                  errorMessage: {
+                    html: dsc1NumberErrors
+                  } if model.dsc1NumberError,
+                  attributes: {
+                    spellcheck: "false"
+                  }
+                }) }}
+            </div>
+          </div>
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              {{ govukDateInput({
+                id: "dsc1-date",
+                name: "dsc1Date",
+                fieldset: {
+                  legend: {
+                    text: "Date Obtained",
+                    classes: "govuk-fieldset__legend--m"
+                  }
+                },
+                hint: {
+                  text: "For example, 31 3 1980"
+                },
+                errorMessage: {
+                    html: dsc1DateErrors
+                } if model.dsc1DateError,
+                items: [
+                  {
+                    name: "dsc1Day",
+                    label: "Day",
+                    value: model.dsc1Day,
+                    classes: "govuk-input--width-2 govuk-input--error" 
+                    if model.dsc1FutureError or
+                    model.dsc1InvalidError or
+                    model.dsc1DayError
+                    else "govuk-input--width-2"
+                  },
+                  {
+                    name: "dsc1Month",
+                    label: "Month",
+                    value: model.dsc1Month,
+                    classes: "govuk-input--width-2 govuk-input--error" 
+                    if model.dsc1FutureError or
+                    model.dsc1InvalidError or
+                    model.dsc1MonthError
+                    else "govuk-input--width-2"
+                  },
+                  {
+                    name: "dsc1Year",
+                    label: "Year",
+                    value: model.dsc1Year, 
+                       classes: "govuk-input--width-4 govuk-input--error" 
+                    if model.dsc1FutureError or
+                    model.dsc1InvalidError or
+                    model.dsc1YearError
+                    else "govuk-input--width-4"
+                  }
+                ]
+              }) }}
+            </div>
+          </div>
+
+          {{ govukButton({
+          text: "Continue",
+          classes: "naturescot-forward-button"
+          }) }}
+        </form>
+      <h3 class="govuk-heading-s">Email</h3>
+      <ul class="govuk-list">
+        <li><a class="govuk-link" href="mailto:licensing@nature.scot">licensing@nature.scot</a></li>
+      </ul>
+      <h3 class="govuk-heading-s">Telephone</h3>
+      <ul class="govuk-list">
+        <li>01463 725 364</li>
+        <li>Monday to Friday, 10am to 4pm (except public holidays)</li>
+      </ul>
+      <p class="govuk-body">
+        <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="https://www.gov.uk/call-charges">Find out about call charges&nbsp;(opens in new tab)</a>
+      </p>
+      <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#top-of-page">
+        Back to top
+      </a>
+    </div>
+  </div>
+{% endblock %}
