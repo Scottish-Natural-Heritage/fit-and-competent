@@ -43,7 +43,7 @@ describe('Other Qualification Details page ', function () {
 
   it('should allow access if the user visits all the pages in order', function () {
     cy.visit('/other-qualification-details');
-    cy.get('h1').should('contain', 'What are the details of your deer stalking certificate?');
+    cy.get('h1').should('contain', 'What are the details of your Other/Equivalent deer stalking certificate?');
   });
 
   it('filled-out other entry with no name + main button should navigate to same page with error', function () {

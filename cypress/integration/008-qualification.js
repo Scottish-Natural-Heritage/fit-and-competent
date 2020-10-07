@@ -49,7 +49,7 @@ describe('Qualification page ', function () {
 
     cy.get('h2#error-summary-title').should('contain', 'There is a problem');
 
-    cy.get('.govuk-error-summary ul li a').should('contain', 'You must select at least one qualification you hold');
+    cy.get('.govuk-error-summary ul li a').should('contain', 'You must select at least one qualification');
   });
 
   it('"dsc1" radio + main button should navigate to dsc1-details', function () {
