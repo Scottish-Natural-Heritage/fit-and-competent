@@ -9,6 +9,10 @@ import GdprController from './controllers/gdpr.js';
 import ConvictionController from './controllers/conviction.js';
 import FirearmController from './controllers/firearm.js';
 import QualificationController from './controllers/qualification.js';
+import Dsc1DetailsController from './controllers/dsc1-details.js';
+import Dsc2DetailsController from './controllers/dsc2-details.js';
+import OtherQualificationDetailsController from './controllers/other-qualification-details.js';
+
 // Configure all of the pages and routes.
 
 router.use(
@@ -60,7 +64,34 @@ router.use(
   Page({
     path: 'qualification',
     back: 'firearm',
+    positiveForward: 'dsc1-details',
+    secondaryForward: 'dsc2-details',
+    tertiaryForward: 'other-qualification-details',
     controller: QualificationController
+  })
+);
+
+router.use(
+  Page({
+    path: 'dsc1-details',
+    back: 'qualification',
+    controller: Dsc1DetailsController
+  })
+);
+
+router.use(
+  Page({
+    path: 'dsc2-details',
+    back: 'qualification',
+    controller: Dsc2DetailsController
+  })
+);
+
+router.use(
+  Page({
+    path: 'other-qualification-details',
+    back: 'qualification',
+    controller: OtherQualificationDetailsController
   })
 );
 
