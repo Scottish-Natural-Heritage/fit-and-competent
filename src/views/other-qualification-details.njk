@@ -30,27 +30,27 @@
             href: "#other-name-error"
         } if model.otherNameError,
         {
-            text: "The date you obtained your qualification must be in the past",
+            text: "The date you obtained your certificate must be in the past",
             href: "#other-date-error"
         } if model.otherFutureError,
         {
-            text: "The date you obtained your qualification must be a real date",
+            text: "The date you obtained your certificate must be a real date",
             href: "#other-date-error"
         } if model.otherInvalidError,
                         {
-            text: "The date you obtained your qualification must include a day",
+            text: "The date you obtained your certificate must include a day",
             href: "#other-date-error"
         } if model.otherDayError,
         {
-            text: "The date you obtained your qualification must include a month",
+            text: "The date you obtained your certificate must include a month",
             href: "#other-date-error"
         } if model.otherMonthError,
         {
-            text: "The date you obtained your qualification must include a year",
+            text: "The date you obtained your certificate must include a year",
             href: "#other-date-error"
         } if model.otherYearError,
         {
-            text: "You must provide qualification details",
+            text: "You must provide your certificate details",
             href: "#other-date-error"
         } if model.emptyPageError
       ]
@@ -58,11 +58,8 @@
   {% endif %}
 
   <h1 class="govuk-heading-xl">
-    What are the details of your Other/Equivalent deer stalking certificate?
+    Enter the details of your Other/Equivalent Deer Stalking Certificate below
   </h1>
-  <p class="govuk-body">
-    Please add the name and the date obtained of the certificate you use to apply
-  </p>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <form method="post">

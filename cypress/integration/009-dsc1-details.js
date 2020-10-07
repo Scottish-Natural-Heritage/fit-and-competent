@@ -43,7 +43,7 @@ describe('DSC1 Details page ', function () {
 
   it('should allow access if the user visits all the pages in order', function () {
     cy.visit('/dsc1-details');
-    cy.get('h1').should('contain', 'Enter your Dear Stalking Certificate 1 details below');
+    cy.get('h1').should('contain', 'Enter your Deer Stalking Certificate 1 details below');
   });
 
   it('blank entry + main button should navigate to same page with error', function () {
@@ -70,7 +70,7 @@ describe('DSC1 Details page ', function () {
 
     cy.get('.govuk-error-summary ul li a').should(
       'contain',
-      'The number on your DSC 1 Qualification must be less than or equal to 5 characters'
+      'Deer Stalking Certificate 1 Number must be 5 characters or fewer'
     );
   });
 
@@ -88,7 +88,7 @@ describe('DSC1 Details page ', function () {
 
     cy.get('.govuk-error-summary ul li a').should(
       'contain',
-      'The number on your DSC 1 Qualification must only contain numbers'
+      'Deer Stalking Certificate 1 Number must only contain numbers'
     );
   });
 
@@ -106,7 +106,7 @@ describe('DSC1 Details page ', function () {
 
     cy.get('.govuk-error-summary ul li a').should(
       'contain',
-      'The number on your DSC 1 Qualification must be less than or equal to 5 characters'
+      'Deer Stalking Certificate 1 Number must be 5 characters or fewer'
     );
   });
 
@@ -125,7 +125,7 @@ describe('DSC1 Details page ', function () {
 
     cy.get('.govuk-error-summary ul li a').should(
       'contain',
-      'The date you obtained your DSC 1 qualification must be in the past'
+      'The date you obtained your Deer Stalking Certificate 1 must be in the past'
     );
   });
 
@@ -144,7 +144,7 @@ describe('DSC1 Details page ', function () {
 
     cy.get('.govuk-error-summary ul li a').should(
       'contain',
-      'The date you obtained your DSC 1 qualification must be a real date'
+      'The date you obtained your Deer Stalking Certificate 1 must be a real date'
     );
   });
 
@@ -159,8 +159,8 @@ describe('DSC1 Details page ', function () {
     cy.get('h2#error-summary-title').should('contain', 'There is a problem');
 
     cy.get('.govuk-error-summary ul li a')
-      .should('contain', 'The date you obtained your DSC 1 qualification must include a year')
-      .and('contain', 'The date you obtained your DSC 1 qualification must include a month')
-      .and('contain', 'The date you obtained your DSC 1 qualification must include a day');
+      .should('contain', 'The date you obtained your Deer Stalking Certificate 1 must include a year')
+      .and('contain', 'The date you obtained your Deer Stalking Certificate 1 must include a month')
+      .and('contain', 'The date you obtained your Deer Stalking Certificate 1 must include a day');
   });
 });

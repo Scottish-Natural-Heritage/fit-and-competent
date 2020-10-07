@@ -7,23 +7,23 @@
 
 {% set dsc2NumberErrors %}
   {% if model.dsc2InvalidCharacterError %}
-    <p>The number on your DSC 2 Qualification must only contain numbers</p>
+    <p>Deer Stalking Certificate 2 Number must only contain numbers</p>
   {% else %}
-    <p>The number on your DSC 2 Qualification must be less than or equal to 5 characters</p>
+    <p>Deer Stalking Certificate 2 Number must be 5 characters or fewer</p>
   {% endif %}
 {% endset -%}
 
 {% set dsc2DateErrors %}
   {% if model.dsc2DayError %}
-    <p>The date you obtained your DSC 2 qualification must include a day</p>
+    <p>The date you obtained your Deer Stalking Certificate 2 must include a day</p>
   {% elif model.dsc2MonthError %}
-    <p>The date you obtained your DSC 2 qualification must include a month</p>
+    <p>The date you obtained your Deer Stalking Certificate 2 must include a month</p>
   {% elif model.dsc2YearError %}
-    <p>The date you obtained your DSC 2 qualification must include a year</p>
+    <p>The date you obtained your Deer Stalking Certificate 2 must include a year</p>
   {% elif model.dsc2FutureError %}
-    <p>The date you obtained your DSC 2 qualification must be in the past</p>
+    <p>The date you obtained your Deer Stalking Certificate 2 must be in the past</p>
   {% else %}
-    <p>The date you obtained your DSC 2 qualification must be a real date</p>
+    <p>The date you obtained your Deer Stalking Certificate 2 must be a real date</p>
   {% endif %}
 {% endset -%}
 
@@ -34,43 +34,43 @@
       titleText: "There is a problem",
       errorList: [
         {
-            text: "The number on your DSC 2 Qualification must only contain numbers",
+            text: "Deer Stalking Certificate 2 Number must only contain numbers",
             href: "#dsc2-number-error"
         } if model.dsc2InvalidCharacterError,
         {
-            text: "The number on your DSC 2 Qualification must be less than or equal to 5 characters",
+            text: "Deer Stalking Certificate 2 Number must be 5 characters or fewer",
             href: "#dsc2-number-error"
         } if model.dsc2LengthError,
         {
-            text: "The date you obtained your DSC 2 qualification must be a real date",
+            text: "The date you obtained your Deer Stalking Certificate 2 must be a real date",
             href: "#dsc2-date-error"
         } if model.dsc2InvalidError,
         {
-            text: "The date you obtained your DSC 2 qualification must be in the past",
+            text: "The date you obtained your Deer Stalking Certificate 2 must be in the past",
             href: "#dsc2-date-error"
         } if model.dsc2FutureError,
         {
-            text: "The date you obtained your DSC 2 qualification must include a day",
+            text: "The date you obtained your Deer Stalking Certificate 2 must include a day",
             href: "#dsc2-date-error"
         } if model.dsc2DayError,
         {
-            text: "The date you obtained your DSC 2 qualification must include a month",
+            text: "The date you obtained your Deer Stalking Certificate 2 must include a month",
             href: "#dsc2-date-error"
         } if model.dsc2MonthError,
         {
-            text: "The date you obtained your DSC 2 qualification must include a year",
+            text: "The date you obtained your Deer Stalking Certificate 2 must include a year",
             href: "#dsc2-date-error"
         } if model.dsc2YearError,
         {
             text: "You must provide qualification details",
-            href: "#other-date-error"
+            href: "#dsc2-number-error"
         } if model.emptyPageError
       ]
     }) }}
   {% endif %}
 
   <h1 class="govuk-heading-xl">
-    Enter your Dear Stalking Certificate 2 details below
+    Enter your Deer Stalking Certificate 2 details below
   </h1>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -79,7 +79,7 @@
             <div class="govuk-grid-column-one-half">
                {{ govukInput({
                   label: {
-                    text: "Dear Stalking Certificate 2 Number",
+                    text: "Deer Stalking Certificate 2 Number",
                     classes: "govuk-label--m"
                   },
                   classes: "govuk-!-width-one-half",

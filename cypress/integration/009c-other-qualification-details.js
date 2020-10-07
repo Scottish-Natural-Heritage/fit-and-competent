@@ -43,7 +43,7 @@ describe('Other Qualification Details page ', function () {
 
   it('should allow access if the user visits all the pages in order', function () {
     cy.visit('/other-qualification-details');
-    cy.get('h1').should('contain', 'What are the details of your Other/Equivalent deer stalking certificate?');
+    cy.get('h1').should('contain', 'Enter the details of your Other/Equivalent Deer Stalking Certificate below');
   });
 
   it('filled-out other entry with no name + main button should navigate to same page with error', function () {
@@ -76,7 +76,7 @@ describe('Other Qualification Details page ', function () {
 
     cy.get('.govuk-error-summary ul li a').should(
       'contain',
-      'The date you obtained your qualification must be in the past'
+      'The date you obtained your certificate must be in the past'
     );
   });
 
@@ -95,7 +95,7 @@ describe('Other Qualification Details page ', function () {
 
     cy.get('.govuk-error-summary ul li a').should(
       'contain',
-      'The date you obtained your qualification must be a real date'
+      'The date you obtained your certificate must be a real date'
     );
   });
 
@@ -110,8 +110,8 @@ describe('Other Qualification Details page ', function () {
     cy.get('h2#error-summary-title').should('contain', 'There is a problem');
 
     cy.get('.govuk-error-summary ul li a')
-      .should('contain', 'The date you obtained your qualification must include a year')
-      .and('contain', 'The date you obtained your qualification must include a month')
-      .and('contain', 'The date you obtained your qualification must include a day');
+      .should('contain', 'The date you obtained your certificate must include a year')
+      .and('contain', 'The date you obtained your certificate must include a month')
+      .and('contain', 'The date you obtained your certificate must include a day');
   });
 });
