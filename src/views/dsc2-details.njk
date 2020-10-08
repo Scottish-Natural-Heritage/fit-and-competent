@@ -1,0 +1,173 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+
+{% set dsc2NumberErrors %}
+  {% if model.dsc2InvalidCharacterError %}
+    <p>Deer Stalking Certificate 2 Number must only contain numbers</p>
+  {% else %}
+    <p>Deer Stalking Certificate 2 Number must be 5 characters or fewer</p>
+  {% endif %}
+{% endset -%}
+
+{% set dsc2DateErrors %}
+  {% if model.dsc2DayError %}
+    <p>The date you obtained your Deer Stalking Certificate 2 must include a day</p>
+  {% elif model.dsc2MonthError %}
+    <p>The date you obtained your Deer Stalking Certificate 2 must include a month</p>
+  {% elif model.dsc2YearError %}
+    <p>The date you obtained your Deer Stalking Certificate 2 must include a year</p>
+  {% elif model.dsc2FutureError %}
+    <p>The date you obtained your Deer Stalking Certificate 2 must be in the past</p>
+  {% else %}
+    <p>The date you obtained your Deer Stalking Certificate 2 must be a real date</p>
+  {% endif %}
+{% endset -%}
+
+{% block content %}
+
+  {% if model.dsc2Error %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+            text: "Deer Stalking Certificate 2 Number must only contain numbers",
+            href: "#dsc2-number-error"
+        } if model.dsc2InvalidCharacterError,
+        {
+            text: "Deer Stalking Certificate 2 Number must be 5 characters or fewer",
+            href: "#dsc2-number-error"
+        } if model.dsc2LengthError,
+        {
+            text: "The date you obtained your Deer Stalking Certificate 2 must be a real date",
+            href: "#dsc2-date-error"
+        } if model.dsc2InvalidError,
+        {
+            text: "The date you obtained your Deer Stalking Certificate 2 must be in the past",
+            href: "#dsc2-date-error"
+        } if model.dsc2FutureError,
+        {
+            text: "The date you obtained your Deer Stalking Certificate 2 must include a day",
+            href: "#dsc2-date-error"
+        } if model.dsc2DayError,
+        {
+            text: "The date you obtained your Deer Stalking Certificate 2 must include a month",
+            href: "#dsc2-date-error"
+        } if model.dsc2MonthError,
+        {
+            text: "The date you obtained your Deer Stalking Certificate 2 must include a year",
+            href: "#dsc2-date-error"
+        } if model.dsc2YearError,
+        {
+            text: "You must provide qualification details",
+            href: "#dsc2-number-error"
+        } if model.emptyPageError
+      ]
+    }) }}
+  {% endif %}
+
+  <h1 class="govuk-heading-xl">
+    Enter your Deer Stalking Certificate 2 details below
+  </h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <form method="post">
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+               {{ govukInput({
+                  label: {
+                    text: "Deer Stalking Certificate 2 Number",
+                    classes: "govuk-label--m"
+                  },
+                  classes: "govuk-!-width-one-half",
+                  id: "dsc2-number",
+                  name: "dsc2Number",
+                  value: model.dsc2Number,
+                  errorMessage: {
+                    html: dsc2NumberErrors
+                  } if model.dsc2NumberError,
+                  attributes: {
+                    spellcheck: "false"
+                  }
+                }) }}
+            </div>
+          </div>
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              {{ govukDateInput({
+                id: "dsc2-date",
+                name: "dsc2Date",
+                fieldset: {
+                  legend: {
+                    text: "Date Obtained",
+                    classes: "govuk-fieldset__legend--m"
+                  }
+                },
+                hint: {
+                  text: "For example, 31 3 1980"
+                },
+                errorMessage: {
+                    html: dsc2DateErrors
+                } if model.dsc2DateError,
+                items: [
+                  {
+                    name: "dsc2Day",
+                    label: "Day",
+                    value: model.dsc2Day,
+                    classes: "govuk-input--width-2 govuk-input--error" 
+                    if model.dsc2FutureError or
+                    model.dsc2InvalidError or
+                    model.dsc2DayError
+                    else "govuk-input--width-2"
+                  },
+                  {
+                    name: "dsc2Month",
+                    label: "Month",
+                    value: model.dsc2Month,
+                    classes: "govuk-input--width-2 govuk-input--error" 
+                    if model.dsc2FutureError or
+                    model.dsc2InvalidError or
+                    model.dsc2MonthError
+                    else "govuk-input--width-2"
+                  },
+                  {
+                    name: "dsc2Year",
+                    label: "Year",
+                    value: model.dsc2Year, 
+                       classes: "govuk-input--width-4 govuk-input--error" 
+                    if model.dsc2FutureError or
+                    model.dsc2InvalidError or
+                    model.dsc2YearError
+                    else "govuk-input--width-4"
+                  }
+                ]
+              }) }}
+            </div>
+          </div>
+
+          {{ govukButton({
+          text: "Continue",
+          classes: "naturescot-forward-button"
+          }) }}
+        </form>
+      <h3 class="govuk-heading-s">Email</h3>
+      <ul class="govuk-list">
+        <li><a class="govuk-link" href="mailto:licensing@nature.scot">licensing@nature.scot</a></li>
+      </ul>
+      <h3 class="govuk-heading-s">Telephone</h3>
+      <ul class="govuk-list">
+        <li>01463 725 364</li>
+        <li>Monday to Friday, 10am to 4pm (except public holidays)</li>
+      </ul>
+      <p class="govuk-body">
+        <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="https://www.gov.uk/call-charges">Find out about call charges&nbsp;(opens in new tab)</a>
+      </p>
+      <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#top-of-page">
+        Back to top
+      </a>
+    </div>
+  </div>
+{% endblock %}
