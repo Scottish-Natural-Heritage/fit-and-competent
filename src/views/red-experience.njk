@@ -9,7 +9,7 @@
 {% block content %}
 
   {% set redExperienceYearsErrors %}
-    {% if model.redExperienceYearInvalidError %}
+    {% if model.redExperienceYearsInvalidError %}
       <p>The number of years experience you have controlling red deer must only contain numbers</p>
     {% else %}
       <p>You must enter the number of years experience you have controlling red deer</p>
@@ -26,7 +26,7 @@
         name: "redExperienceYears",
         errorMessage: {
           html: redExperienceYearsErrors
-        } if model.redExperienceYearInvalidError or model.redEmptyError
+        } if model.redExperienceYearsInvalidError or model.redEmptyError
       }) }}
 
       <h4 class="govuk-heading-s">
@@ -57,7 +57,7 @@
         {
             text: "The number of years experience you have controlling red deer must only contain numbers",
             href: "#red-experience-years-error"
-        } if model.redExperienceYearInvalidError,
+        } if model.redExperienceYearsInvalidError,
         {
             text: "The number of red deer you control must only contain numbers",
             href: "#red-control-number-error"
