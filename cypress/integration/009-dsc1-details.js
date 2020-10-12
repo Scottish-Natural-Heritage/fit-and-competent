@@ -43,7 +43,7 @@ describe('DSC1 Details page ', function () {
 
   it('should allow access if the user visits all the pages in order', function () {
     cy.visit('/dsc1-details');
-    cy.get('h1').should('contain', 'Enter your Deer Stalking Certificate 1 details below');
+    cy.get('h1').should('contain', 'What are your Deer Stalking Certificate 1 details?');
   });
 
   it('blank entry + main button should navigate to same page with error', function () {
