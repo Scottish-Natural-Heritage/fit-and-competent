@@ -58,14 +58,14 @@
   {% endif %}
 
   <h1 class="govuk-heading-xl">
-    Enter the details of your Other/Equivalent Deer Stalking Certificate below
+    What are the details of your equivalent deer stalking certificate?
   </h1>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <form method="post">
           {{ govukInput({
             label: {
-              text: "Name",
+              text: "Certificate name",
               classes: "govuk-label--m"
             },
             classes: "govuk-!-width-one-half",
@@ -85,7 +85,7 @@
                 name: "otherDate",
                 fieldset: {
                   legend: {
-                    text: "Date",
+                    text: "Date Obtained",
                     classes: "govuk-fieldset__legend--m"
                   }
                 },
