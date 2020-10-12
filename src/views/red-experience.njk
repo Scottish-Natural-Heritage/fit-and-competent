@@ -1,0 +1,126 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+
+{% block content %}
+
+  {% set redExperienceYearsErrors %}
+    {% if model.redExperienceYearInvalidError %}
+      <p>The number of years experience you have controlling red deer must only contain numbers</p>
+    {% else %}
+      <p>You must enter the number of years experience you have controlling red deer</p>
+    {% endif %}
+  {% endset -%}
+
+  {% set yesHtml %}
+    <h4 class="govuk-heading-s">
+      How many years experience do you have controlling red deer?
+    </h4>
+      {{ govukInput({
+        classes: "govuk-input--width-2",
+        id: "red-experience-years",
+        name: "redExperienceYears",
+        errorMessage: {
+          html: redExperienceYearsErrors
+        } if model.redExperienceYearInvalidError or model.redEmptyError
+      }) }}
+
+      <h4 class="govuk-heading-s">
+        What is the average number of red deer you have controlled per year over the last 5 years?
+      </h4>
+      {{ govukInput({
+        classes: "govuk-input--width-4",
+        id: "red-control-number",
+        name: "redControlNumber",
+        errorMessage: {
+          text: 'The number of red deer you control must only contain numbers'
+        } if model.redControlNumberInvalidError
+      }) }}
+  {% endset -%}
+
+  {% if model.experienceError %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+            text: "You must select yes or no",
+            href: "#red-experience-years-error"
+        } if model.redSelectionError,
+        {
+            text: "You must enter the number of years experience you have controlling red deer",
+            href: "#red-experience-years-error"
+        } if model.redEmptyError,
+        {
+            text: "The number of years experience you have controlling red deer must only contain numbers",
+            href: "#red-experience-years-error"
+        } if model.redExperienceYearInvalidError,
+        {
+            text: "The number of red deer you control must only contain numbers",
+            href: "#red-control-number-error"
+        } if model.redControlNumberInvalidError
+      ]
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    <form method="post">
+      {{ govukRadios({
+        id: "red",
+        name: "red",
+        fieldset: {
+          legend: {
+            text: "Do you control red deer?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        errorMessage: {
+          text: "You must select yes or no"
+        } if model.redSelectionError,
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            conditional: {
+              html: yesHtml
+            },
+            checked: model.red === 'yes'
+          },
+          {
+            value: "no",
+            text: "No",
+            checked: model.red === 'no'
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+      text: "Continue",
+      classes: "naturescot-forward-button"
+      }) }}
+    </form>
+
+      
+      <h3 class="govuk-heading-s">Email</h3>
+      <ul class="govuk-list">
+        <li><a class="govuk-link" href="mailto:licensing@nature.scot">licensing@nature.scot</a></li>
+      </ul>
+      <h3 class="govuk-heading-s">Telephone</h3>
+      <ul class="govuk-list">
+        <li>01463 725 364</li>
+        <li>Monday to Friday, 10am to 4pm (except public holidays)</li>
+      </ul>
+      <p class="govuk-body">
+        <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="https://www.gov.uk/call-charges">Find out about call charges&nbsp;(opens in new tab)</a>
+      </p>
+      <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#top-of-page">
+        Back to top
+      </a>
+    </div>
+  </div>
+{% endblock %}
