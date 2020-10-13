@@ -1,5 +1,5 @@
 import {ReturnState} from './_base.js';
-
+import {cleanInt} from './_util.js';
 /**
  * Clean the incoming POST request body to make it more compatible with the
  * database and its validation rules.
@@ -10,8 +10,8 @@ import {ReturnState} from './_base.js';
 const cleanInput = (body) => {
   return {
     // Ensure the user has entered integers
-    cleanRedExperienceYears: body.redExperienceYears === undefined ? undefined : body.redExperienceYears.trim(),
-    cleanRedControlNumber: body.redControlNumber === undefined ? undefined : body.redControlNumber.trim()
+    cleanRedExperienceYears: cleanInt(body.redExperienceYears),
+    cleanRedControlNumber: cleanInt(body.redControlNumber)
   };
 };
 
@@ -28,21 +28,21 @@ const redExperienceController = (request) => {
   }
 
   if (request.body.red === 'yes') {
-    // Clean up the user's input before we use it.
+    // Clean up the user's input.
     const {cleanRedExperienceYears, cleanRedControlNumber} = cleanInput(request.body);
     request.session.red = 'yes';
     request.session.redExperienceYears = cleanRedExperienceYears;
     request.session.redControlNumber = cleanRedControlNumber;
 
-    if (request.session.redExperienceYears) {
-      request.session.redExperienceYearsInvalidError = new RegExp(/\D/).test(cleanRedExperienceYears);
+    if (request.body.redExperienceYears) {
+      request.session.redExperienceYearsInvalidError = new RegExp(/\D/).test(request.body.redExperienceYears.trim());
     }
 
-    if (request.session.redControlNumber) {
-      request.session.redControlNumberInvalidError = new RegExp(/\D/).test(cleanRedControlNumber);
+    if (request.body.redControlNumber) {
+      request.session.redControlNumberInvalidError = new RegExp(/\D/).test(request.body.redControlNumber.trim());
     }
 
-    if (request.session.redExperienceYears === '' && request.session.redControlNumber === '') {
+    if (request.body.redExperienceYears.trim() === '' && request.body.redControlNumber.trim() === '') {
       request.session.redEmptyError = true;
     }
   }
