@@ -13,6 +13,7 @@ import Dsc1DetailsController from './controllers/dsc1-details.js';
 import Dsc2DetailsController from './controllers/dsc2-details.js';
 import OtherQualificationDetailsController from './controllers/other-qualification-details.js';
 import RedExperienceController from './controllers/red-experience.js';
+import RoeExperienceController from './controllers/roe-experience.js';
 
 // Configure all of the pages and routes.
 
@@ -103,7 +104,16 @@ router.use(
   Page({
     path: 'red-experience',
     back: 'qualification',
+    positiveForward: 'roe-experience',
     controller: RedExperienceController
+  })
+);
+
+router.use(
+  Page({
+    path: 'roe-experience',
+    back: 'red-experience',
+    controller: RoeExperienceController
   })
 );
 
