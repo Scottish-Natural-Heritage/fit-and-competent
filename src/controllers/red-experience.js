@@ -8,6 +8,7 @@ import {cleanInt} from './_util.js';
  * @returns {any} A json object that's just got our cleaned up fields on it.
  */
 const cleanInput = (body) => {
+  console.log(body);
   return {
     // Ensure the user has entered integers
     cleanRedExperienceYears: cleanInt(body.redExperienceYears),
@@ -19,7 +20,8 @@ const redExperienceController = (request) => {
   // Clear any existing errors.
   request.session.experienceError = false;
   request.session.redSelectionError = false;
-  request.session.redEmptyError = false;
+  request.session.redExperienceYearsEmptyError = false;
+  request.session.redControlNumberEmptyError = false;
   request.session.redExperienceYearsInvalidError = false;
   request.session.redControlNumberInvalidError = false;
 
@@ -34,16 +36,17 @@ const redExperienceController = (request) => {
     request.session.redExperienceYears = cleanRedExperienceYears;
     request.session.redControlNumber = cleanRedControlNumber;
 
-    if (request.body.redExperienceYears) {
+    request.session.redExperienceYearsEmptyError =
+      request.body.redExperienceYears === undefined || request.body.redExperienceYears.trim() === '';
+    request.session.redControlNumberEmptyError =
+      request.body.redControlNumber === undefined || request.body.redControlNumber.trim() === '';
+
+    if (!request.session.redExperienceYearsEmptyError) {
       request.session.redExperienceYearsInvalidError = new RegExp(/\D/).test(request.body.redExperienceYears.trim());
     }
 
-    if (request.body.redControlNumber) {
+    if (!request.session.redControlNumberEmptyError) {
       request.session.redControlNumberInvalidError = new RegExp(/\D/).test(request.body.redControlNumber.trim());
-    }
-
-    if (request.body.redExperienceYears.trim() === '' && request.body.redControlNumber.trim() === '') {
-      request.session.redEmptyError = true;
     }
   }
 
@@ -55,7 +58,8 @@ const redExperienceController = (request) => {
 
   // Check for any errors in the processing.
   request.session.experienceError =
-    request.session.redEmptyError ||
+    request.session.redExperienceYearsEmptyError ||
+    request.session.redControlNumberEmptyError ||
     request.session.redExperienceYearsInvalidError ||
     request.session.redControlNumberInvalidError ||
     request.session.redSelectionError;

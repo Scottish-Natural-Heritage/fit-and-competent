@@ -1,11 +1,11 @@
-describe('DSC1 details page directly', function () {
+describe('Red Experience page directly', function () {
   it('should prevent access', function () {
-    cy.visit('/dsc1-details', {failOnStatusCode: false});
+    cy.visit('/red-experience', {failOnStatusCode: false});
     cy.get('h1').should('contain', 'there is a problem with the service');
   });
 });
 
-describe('Qualification page ', function () {
+describe('Red Experience page ', function () {
   const todaysDate = Cypress.moment().format('YYYY');
   beforeEach(() => {
     // GET `/start`
@@ -51,7 +51,7 @@ describe('Qualification page ', function () {
 
   it('should allow access if the user visits all the pages in order', function () {
     cy.visit('/red-experience');
-    cy.get('h1').should('contain', 'Do you control red deer?');
+    cy.get('h1').should('contain', 'Do you control red deer');
   });
 
   it('blank entry + main button should navigate to same page with error', function () {
@@ -79,10 +79,9 @@ describe('Qualification page ', function () {
 
     cy.get('h2#error-summary-title').should('contain', 'There is a problem');
 
-    cy.get('.govuk-error-summary ul li a').should(
-      'contain',
-      'You must enter the number of years experience you have controlling red deer'
-    );
+    cy.get('.govuk-error-summary ul li a')
+      .should('contain', 'You must enter the number of years experience you have controlling red deer')
+      .and('contain', 'You must enter the number of red deer you have controlled in the last 5 years');
   });
 
   it('"yes" radio + main button should display form and try to submit with invalid chars in experience but get errors', function () {

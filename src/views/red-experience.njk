@@ -16,30 +16,39 @@
     {% endif %}
   {% endset -%}
 
+  {% set redControlNumberErrors %}
+    {% if model.redControlNumberInvalidError %}
+      <p>The number of red deer you have controled must only contain numbers</p>
+    {% else %}
+      <p>You must enter the number of red deer you have controled in the last 5 years</p>
+    {% endif %}
+  {% endset -%}
+
   {% set yesHtml %}
     <h4 class="govuk-heading-s">
       How many years experience do you have controlling red deer?
     </h4>
       {{ govukInput({
-        classes: "govuk-input--width-2",
+        classes: "govuk-input--width-10",
         id: "red-experience-years",
         name: "redExperienceYears",
         errorMessage: {
           html: redExperienceYearsErrors
-        } if model.redExperienceYearsInvalidError or model.redEmptyError
+        } if model.redExperienceYearsInvalidError or model.redExperienceYearsEmptyError
       }) }}
 
       <h4 class="govuk-heading-s">
         What is the average number of red deer you have controlled per year over the last 5 years?
       </h4>
       {{ govukInput({
-        classes: "govuk-input--width-4",
+        classes: "govuk-input--width-10",
         id: "red-control-number",
         name: "redControlNumber",
         errorMessage: {
-          text: 'The number of red deer you control must only contain numbers'
-        } if model.redControlNumberInvalidError
+          html: redControlNumberErrors
+        } if model.redControlNumberInvalidErroror or model.redControlNumberEmptyError
       }) }}
+
   {% endset -%}
 
   {% if model.experienceError %}
@@ -53,7 +62,11 @@
         {
             text: "You must enter the number of years experience you have controlling red deer",
             href: "#red-experience-years-error"
-        } if model.redEmptyError,
+        } if model.redExperienceYearsEmptyError,
+        {
+            text: "You must enter the number of red deer you have controlled in the last 5 years",
+            href: "##red-control-number-errorr"
+        } if model.redControlNumberEmptyError,
         {
             text: "The number of years experience you have controlling red deer must only contain numbers",
             href: "#red-experience-years-error"
