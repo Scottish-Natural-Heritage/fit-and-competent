@@ -1,0 +1,61 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% block content %}
+
+  {% if model.bestPracticeError %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+          text: "You must confirm that you have a sound knowledge and understanding of Scotland’s Wild Deer Best Practice Guides.",
+          href: "#best-practice-error"
+        }
+      ]
+    }) }}
+  {% endif %}
+
+  <form method="post">
+
+    {{ govukCheckboxes({
+      id: "best-practice",
+      name: "bestPractice",
+      fieldset: {
+        legend: {
+          text: "Do you have a sound knowledge and understanding of Scotland’s Wild Deer Best Practice Guides?",
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--xl"
+        }
+      },
+      errorMessage: {
+        text: "You must confirm that you have a sound knowledge and understanding of Scotland’s Wild Deer Best Practice Guides."
+      } if model.bestPracticeError,
+      items: [
+        {
+          value: "yes",
+          text: "I confirm that I have a sound knowledge and understanding of Scotland’s Wild Deer Best Practice Guides",
+          checked: model.bestPractice === true
+        }
+      ]
+    }) }}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+        <p class="govuk-body">
+          Published guides are available on the <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="http://gateway.snh.gov.uk/go/?id=37">Best Practice website</a>.
+        </p>
+
+      </div>
+    </div>
+
+    {{ govukButton({
+      text: "Continue",
+      classes: "naturescot-forward-button"
+    }) }}
+
+  </form>
+{% endblock %}
