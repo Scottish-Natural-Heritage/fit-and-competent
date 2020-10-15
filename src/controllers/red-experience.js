@@ -8,7 +8,6 @@ import {cleanInt} from './_util.js';
  * @returns {any} A json object that's just got our cleaned up fields on it.
  */
 const cleanInput = (body) => {
-  console.log(body);
   return {
     // Ensure the user has entered integers
     cleanRedExperienceYears: cleanInt(body.redExperienceYears),
