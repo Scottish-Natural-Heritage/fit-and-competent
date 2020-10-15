@@ -15,6 +15,7 @@ import OtherQualificationDetailsController from './controllers/other-qualificati
 import RedExperienceController from './controllers/red-experience.js';
 import RoeExperienceController from './controllers/roe-experience.js';
 import SikaExperienceController from './controllers/sika-experience.js';
+import FallowExperienceController from './controllers/fallow-experience.js';
 
 // Configure all of the pages and routes.
 
@@ -123,7 +124,16 @@ router.use(
   Page({
     path: 'sika-experience',
     back: 'roe-experience',
+    positiveForward: 'fallow-experience',
     controller: SikaExperienceController
+  })
+);
+
+router.use(
+  Page({
+    path: 'fallow-experience',
+    back: 'sika-experience',
+    controller: FallowExperienceController
   })
 );
 
