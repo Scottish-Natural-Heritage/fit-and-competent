@@ -1,0 +1,123 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+
+{% block content %}
+
+  {% set fallowExperienceYearsErrors %}
+    {% if model.fallowExperienceYearsInvalidError %}
+      <p>The number of years experience you have controlling fallow deer must only contain numbers</p>
+    {% else %}
+      <p>You must enter the number of years experience you have controlling fallow deer</p>
+    {% endif %}
+  {% endset -%}
+
+  {% set fallowControlNumberErrors %}
+    {% if model.fallowControlNumberInvalidError %}
+      <p>The number of fallow deer you have controled must only contain numbers</p>
+    {% else %}
+      <p>You must enter the number of fallow deer you have controled in the last 5 years</p>
+    {% endif %}
+  {% endset -%}
+
+  {% set yesHtml %}
+    <h4 class="govuk-heading-s">
+      How many years experience do you have controlling fallow deer?
+    </h4>
+      {{ govukInput({
+        classes: "govuk-input--width-10",
+        id: "fallow-experience-years",
+        name: "fallowExperienceYears",
+        errorMessage: {
+          html: fallowExperienceYearsErrors
+        } if model.fallowExperienceYearsInvalidError or model.fallowExperienceYearsEmptyError
+      }) }}
+
+      <h4 class="govuk-heading-s">
+        What is the average number of fallow deer you have controlled per year over the last 5 years?
+      </h4>
+      {{ govukInput({
+        classes: "govuk-input--width-10",
+        id: "fallow-control-number",
+        name: "fallowControlNumber",
+        errorMessage: {
+          html: fallowControlNumberErrors
+        } if model.fallowControlNumberInvalidErroror or model.fallowControlNumberEmptyError
+      }) }}
+
+  {% endset -%}
+
+  {% if model.experienceError %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+            text: "You must select yes or no",
+            href: "#fallow-experience-years-error"
+        } if model.fallowSelectionError,
+        {
+            text: "You must enter the number of years experience you have controlling fallow deer",
+            href: "#fallow-experience-years-error"
+        } if model.fallowExperienceYearsEmptyError,
+        {
+            text: "You must enter the number of fallow deer you have controlled in the last 5 years",
+            href: "#fallow-control-number-errorr"
+        } if model.fallowControlNumberEmptyError,
+        {
+            text: "The number of years experience you have controlling fallow deer must only contain numbers",
+            href: "#fallow-experience-years-error"
+        } if model.fallowExperienceYearsInvalidError,
+        {
+            text: "The number of fallow deer you control must only contain numbers",
+            href: "#fallow-control-number-error"
+        } if model.fallowControlNumberInvalidError
+      ]
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    <form method="post">
+      {{ govukRadios({
+        id: "fallow",
+        name: "fallow",
+        fieldset: {
+          legend: {
+            text: "Do you control fallow deer?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        errorMessage: {
+          text: "You must select yes or no"
+        } if model.fallowSelectionError,
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            conditional: {
+              html: yesHtml
+            },
+            checked: model.fallow === 'yes'
+          },
+          {
+            value: "no",
+            text: "No",
+            checked: model.fallow === 'no'
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+      text: "Continue",
+      classes: "naturescot-forward-button"
+      }) }}
+    </form>
+
+    </div>
+  </div>
+{% endblock %}
