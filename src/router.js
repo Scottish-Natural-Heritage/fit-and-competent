@@ -16,7 +16,7 @@ import RedExperienceController from './controllers/red-experience.js';
 import RoeExperienceController from './controllers/roe-experience.js';
 import SikaExperienceController from './controllers/sika-experience.js';
 import FallowExperienceController from './controllers/fallow-experience.js';
-
+import BestPracticeController from './controllers/best-practice.js';
 // Configure all of the pages and routes.
 
 router.use(
@@ -133,7 +133,16 @@ router.use(
   Page({
     path: 'fallow-experience',
     back: 'sika-experience',
+    positiveForward: 'best-practice',
     controller: FallowExperienceController
+  })
+);
+
+router.use(
+  Page({
+    path: 'best-practice',
+    back: 'fallow-experience',
+    controller: BestPracticeController
   })
 );
 
