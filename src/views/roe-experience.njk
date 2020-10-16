@@ -1,0 +1,123 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+
+{% block content %}
+
+  {% set roeExperienceYearsErrors %}
+    {% if model.roeExperienceYearsInvalidError %}
+      <p>The number of years experience you have controlling roe deer must only contain numbers</p>
+    {% else %}
+      <p>You must enter the number of years experience you have controlling roe deer</p>
+    {% endif %}
+  {% endset -%}
+
+  {% set roeControlNumberErrors %}
+    {% if model.roeControlNumberInvalidError %}
+      <p>The number of roe deer you have controled must only contain numbers</p>
+    {% else %}
+      <p>You must enter the number of roe deer you have controled in the last 5 years</p>
+    {% endif %}
+  {% endset -%}
+
+  {% set yesHtml %}
+    <h4 class="govuk-heading-s">
+      How many years experience do you have controlling roe deer?
+    </h4>
+      {{ govukInput({
+        classes: "govuk-input--width-10",
+        id: "roe-experience-years",
+        name: "roeExperienceYears",
+        errorMessage: {
+          html: roeExperienceYearsErrors
+        } if model.roeExperienceYearsInvalidError or model.roeExperienceYearsEmptyError
+      }) }}
+
+      <h4 class="govuk-heading-s">
+        What is the average number of roe deer you have controlled per year over the last 5 years?
+      </h4>
+      {{ govukInput({
+        classes: "govuk-input--width-10",
+        id: "roe-control-number",
+        name: "roeControlNumber",
+        errorMessage: {
+          html: roeControlNumberErrors
+        } if model.roeControlNumberInvalidErroror or model.roeControlNumberEmptyError
+      }) }}
+
+  {% endset -%}
+
+  {% if model.experienceError %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+            text: "You must select yes or no",
+            href: "#roe-experience-years-error"
+        } if model.roeSelectionError,
+        {
+            text: "You must enter the number of years experience you have controlling roe deer",
+            href: "#roe-experience-years-error"
+        } if model.roeExperienceYearsEmptyError,
+        {
+            text: "You must enter the number of roe deer you have controlled in the last 5 years",
+            href: "#roe-control-number-errorr"
+        } if model.roeControlNumberEmptyError,
+        {
+            text: "The number of years experience you have controlling roe deer must only contain numbers",
+            href: "#roe-experience-years-error"
+        } if model.roeExperienceYearsInvalidError,
+        {
+            text: "The number of roe deer you control must only contain numbers",
+            href: "#roe-control-number-error"
+        } if model.roeControlNumberInvalidError
+      ]
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    <form method="post">
+      {{ govukRadios({
+        id: "roe",
+        name: "roe",
+        fieldset: {
+          legend: {
+            text: "Do you control roe deer?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        errorMessage: {
+          text: "You must select yes or no"
+        } if model.roeSelectionError,
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            conditional: {
+              html: yesHtml
+            },
+            checked: model.roe === 'yes'
+          },
+          {
+            value: "no",
+            text: "No",
+            checked: model.roe === 'no'
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+      text: "Continue",
+      classes: "naturescot-forward-button"
+      }) }}
+    </form>
+
+    </div>
+  </div>
+{% endblock %}
