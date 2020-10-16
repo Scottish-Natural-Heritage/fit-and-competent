@@ -1,0 +1,123 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+
+{% block content %}
+
+  {% set sikaExperienceYearsErrors %}
+    {% if model.sikaExperienceYearsInvalidError %}
+      <p>The number of years experience you have controlling sika deer must only contain numbers</p>
+    {% else %}
+      <p>You must enter the number of years experience you have controlling sika deer</p>
+    {% endif %}
+  {% endset -%}
+
+  {% set sikaControlNumberErrors %}
+    {% if model.sikaControlNumberInvalidError %}
+      <p>The number of sika deer you have controled must only contain numbers</p>
+    {% else %}
+      <p>You must enter the number of sika deer you have controled in the last 5 years</p>
+    {% endif %}
+  {% endset -%}
+
+  {% set yesHtml %}
+    <h4 class="govuk-heading-s">
+      How many years experience do you have controlling sika deer?
+    </h4>
+      {{ govukInput({
+        classes: "govuk-input--width-10",
+        id: "sika-experience-years",
+        name: "sikaExperienceYears",
+        errorMessage: {
+          html: sikaExperienceYearsErrors
+        } if model.sikaExperienceYearsInvalidError or model.sikaExperienceYearsEmptyError
+      }) }}
+
+      <h4 class="govuk-heading-s">
+        What is the average number of sika deer you have controlled per year over the last 5 years?
+      </h4>
+      {{ govukInput({
+        classes: "govuk-input--width-10",
+        id: "sika-control-number",
+        name: "sikaControlNumber",
+        errorMessage: {
+          html: sikaControlNumberErrors
+        } if model.sikaControlNumberInvalidErroror or model.sikaControlNumberEmptyError
+      }) }}
+
+  {% endset -%}
+
+  {% if model.experienceError %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+            text: "You must select yes or no",
+            href: "#sika-experience-years-error"
+        } if model.sikaSelectionError,
+        {
+            text: "You must enter the number of years experience you have controlling sika deer",
+            href: "#sika-experience-years-error"
+        } if model.sikaExperienceYearsEmptyError,
+        {
+            text: "You must enter the number of sika deer you have controlled in the last 5 years",
+            href: "#sika-control-number-errorr"
+        } if model.sikaControlNumberEmptyError,
+        {
+            text: "The number of years experience you have controlling sika deer must only contain numbers",
+            href: "#sika-experience-years-error"
+        } if model.sikaExperienceYearsInvalidError,
+        {
+            text: "The number of sika deer you control must only contain numbers",
+            href: "#sika-control-number-error"
+        } if model.sikaControlNumberInvalidError
+      ]
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    <form method="post">
+      {{ govukRadios({
+        id: "sika",
+        name: "sika",
+        fieldset: {
+          legend: {
+            text: "Do you control sika deer?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        errorMessage: {
+          text: "You must select yes or no"
+        } if model.sikaSelectionError,
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            conditional: {
+              html: yesHtml
+            },
+            checked: model.sika === 'yes'
+          },
+          {
+            value: "no",
+            text: "No",
+            checked: model.sika === 'no'
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+      text: "Continue",
+      classes: "naturescot-forward-button"
+      }) }}
+    </form>
+
+    </div>
+  </div>
+{% endblock %}
