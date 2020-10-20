@@ -7,7 +7,14 @@ const bestPracticeController = (request) => {
     request.session.bestPracticeError = false;
     // Save the agreement to comply.
     request.session.bestPractice = true;
-    // Follow the 'happy path'.
+    // The request passed all our validation, we've stored copies of everything we
+    // need, so it's time to go on.
+    if (request.session.qualificationHeld === 'dsc1') {
+      // Take user to referee page
+      return ReturnState.Secondary;
+    }
+
+    // Take user to details page
     return ReturnState.Positive;
   }
 
