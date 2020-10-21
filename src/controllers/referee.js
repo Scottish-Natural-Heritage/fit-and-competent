@@ -32,12 +32,11 @@ const refereeController = (request) => {
   request.session.refereeName = cleanRefereeName;
   request.session.refereeEmail = cleanRefereeEmail;
 
-  request.session.refereeNameError = cleanRefereeName === undefined || cleanRefereeName.trim() === '';
+  request.session.refereeNameError = cleanRefereeName === undefined || cleanRefereeName === '';
 
-  request.session.refereeEmailEmptyError = cleanRefereeEmail === undefined || cleanRefereeEmail.trim() === '';
+  request.session.refereeEmailEmptyError = cleanRefereeEmail === undefined || cleanRefereeEmail === '';
   if (!request.session.refereeEmailEmptyError) {
-    request.session.refereeEmailInvalidError =
-      cleanRefereeEmail.trim().includes(' ') || !cleanRefereeEmail.includes('@');
+    request.session.refereeEmailInvalidError = cleanRefereeEmail.includes(' ') || !cleanRefereeEmail.includes('@');
   }
 
   // Check for any errors in the processing.

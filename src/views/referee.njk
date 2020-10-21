@@ -9,9 +9,9 @@
 
   {% set emailErrors %}
     {% if model.refereeEmailEmptyError %}
-        <p>You must enter the email that can be used to contact your referee</p>
+        You must enter the email that can be used to contact your referee
     {% else %}
-        <p>You must enter a valid email address</p>
+        You must enter a valid email address
     {% endif %}
   {% endset -%}
 
@@ -83,7 +83,7 @@
             name: "refereeEmail",
             value: model.refereeEmail,
             errorMessage: {
-              html: emailErrors
+              text: emailErrors
             } if model.refereeEmailEmptyError or model.refereeEmailInvalidError,
             attributes: {
               spellcheck: "false"

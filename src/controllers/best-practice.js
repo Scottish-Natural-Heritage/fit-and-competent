@@ -7,8 +7,8 @@ const bestPracticeController = (request) => {
     request.session.bestPracticeError = false;
     // Save the agreement to comply.
     request.session.bestPractice = true;
-    // The request passed all our validation, we've stored copies of everything we
-    // need, so it's time to go on.
+    // The request passed all our validation, we've stored copies of everything we need.
+    // If the applicant holds a Deer stalking certificate 1 then we need to go to the referee page.
     if (request.session.qualificationHeld === 'dsc1') {
       // Take user to referee page
       return ReturnState.Secondary;
