@@ -1,0 +1,126 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
+{% block content %}
+
+  {% set emailErrors %}
+    {% if model.refereeEmailEmptyError %}
+        You must enter the email that can be used to contact your referee
+    {% else %}
+        You must enter a valid email address
+    {% endif %}
+  {% endset -%}
+
+  {% if model.refereeError %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+            text: "The full name of your referee is required",
+            href: "#referee-name-error"
+        } if model.refereeNameError,
+        {
+            text: "You must enter the email that can be used to contact your referee",
+            href: "#referee-email-error"
+        } if model.refereeEmailEmptyError,
+        {
+            text: "You must enter a valid email address",
+            href: "#referee-email-error"
+        } if model.refereeEmailInvalidError
+      ]
+    }) }}
+  {% endif %}
+
+  <h1 class="govuk-heading-xl">
+    Please provide details of a referee
+  </h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <p class="govuk-body">
+            As you have applied using DSC1 your application must be verified by a referee
+        </p>
+        <p class="govuk-body">
+            The referee must:
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>have reached a minimum of DSC Level 1</li>
+            <li>have known you for a minimum of two years</li>
+            <li>must not be a member of your immediate family (father / mother / brother / sister / cousin)</li>
+        </ul>
+        <p class="govuk-caption-m">
+            Please provide contact details of referee
+        </p>
+        <form method="post">
+            {{ govukInput({
+            label: {
+              text: "Full Name",
+              classes: "govuk-label--m"
+            },
+            classes: "govuk-!-width-one-half",
+            id: "referee-name",
+            name: "refereeName",
+            value: model.refereeName,
+            errorMessage: {
+              text: "Enter the full name of your referee"
+            } if model.refereeNameError,
+            attributes: {
+              spellcheck: "false"
+            }
+            }) }}
+
+            {{ govukInput({
+            label: {
+              text: "Email",
+              classes: "govuk-label--m"
+            },
+            classes: "govuk-!-width-one-half",
+            id: "referee-email",
+            name: "refereeEmail",
+            value: model.refereeEmail,
+            errorMessage: {
+              text: emailErrors
+            } if model.refereeEmailEmptyError or model.refereeEmailInvalidError,
+            attributes: {
+              spellcheck: "false"
+            }
+            }) }}
+
+            <p class="govuk-body">
+                The referee will be contacted by email and asked to log in and verify your competence before your
+                application can be assessed. You will receive an email once we have received your reference so you
+                know how long you will have to wait to find out if your application is successful.
+            </p>
+            {{ govukButton({
+            text: "Continue",
+            classes: "naturescot-forward-button"
+            }) }}
+        </form>
+
+        {{ govukWarningText({
+            text: 'If it’s not possible to provide a referee contact the NatureScot Licensing Team for advice.',
+            iconFallbackText: "Warning"
+        }) }}
+
+        <h3 class="govuk-heading-s">Email</h3>
+        <ul class="govuk-list">
+            <li><a class="govuk-link" href="mailto:licensing@nature.scot">licensing@nature.scot</a></li>
+        </ul>
+        <h3 class="govuk-heading-s">Telephone</h3>
+        <ul class="govuk-list">
+            <li>01463 725 364</li>
+            <li>Monday to Friday, 10am to 4pm (except public holidays)</li>
+        </ul>
+        <p class="govuk-body">
+            <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="https://www.gov.uk/call-charges">Find out about call charges&nbsp;(opens in new tab)</a>
+        </p>
+        <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#top-of-page">
+            Back to top
+        </a>
+    </div>
+  </div>
+{% endblock %}
