@@ -37,7 +37,8 @@ const confirmController = async (request) => {
           : undefined,
       bestPractice: request.session.bestPractice
     };
-
+    // Added log to stop lint error
+    console.log(newApp);
     // Add HTTP request
     // Let them know it all went well.
     return ReturnState.Positive;
