@@ -36,17 +36,17 @@ const otherQualificationDetailsController = (request) => {
   const {cleanOtherName, cleanOtherYear, cleanOtherMonth, cleanOtherDay} = cleanInput(request.body);
 
   // Save the qualifications details.
-  request.session.otherName = cleanOtherName;
-  request.session.otherYear = cleanOtherYear;
-  request.session.otherMonth = cleanOtherMonth;
-  request.session.otherDay = cleanOtherDay;
+  request.session.qualificationRef = cleanOtherName;
+  request.session.qualificationYear = cleanOtherYear;
+  request.session.qualificationMonth = cleanOtherMonth;
+  request.session.qualificationDay = cleanOtherDay;
 
   // Check for other qualification entry
   if (
-    request.session.otherYear ||
-    request.session.otherMonth ||
-    request.session.otherDay ||
-    request.session.otherName
+    request.session.qualificationRef ||
+    request.session.qualificationYear ||
+    request.session.qualificationMonth ||
+    request.session.qualificationDay
   ) {
     request.session.otherNameError = cleanOtherName === undefined || cleanOtherName === '';
     request.session.otherYearError = cleanOtherYear === undefined;
@@ -71,10 +71,10 @@ const otherQualificationDetailsController = (request) => {
 
       if (!request.session.otherInvalidError && !request.session.otherFutureError) {
         // If there's no errors on the constructed date, save it for later.
-        request.session.otherDate = testDate;
+        request.session.qualificationDate = testDate;
       } else {
         // If there is an error though, just clear that field.
-        request.session.otherDate = undefined;
+        request.session.qualificationDate = undefined;
         request.session.otherDateError = true;
       }
     }
@@ -82,10 +82,10 @@ const otherQualificationDetailsController = (request) => {
 
   // If no data was entered
   if (
-    !request.session.otherName &&
-    !request.session.otherYear &&
-    !request.session.otherMonth &&
-    !request.session.otherDay
+    !request.session.qualificationRef &&
+    !request.session.qualificationYear &&
+    !request.session.qualificationMonth &&
+    !request.session.qualificationDay
   ) {
     // If any individual fields were invalid, there's no point in even checking
     // these yet.
