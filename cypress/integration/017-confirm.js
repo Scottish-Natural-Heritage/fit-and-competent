@@ -1,11 +1,11 @@
-describe('Details page directly', function () {
+describe('Confirm page directly', function () {
   it('should prevent access', function () {
-    cy.visit('/details', {failOnStatusCode: false});
+    cy.visit('/confirm', {failOnStatusCode: false});
     cy.get('h1').should('contain', 'there is a problem with the service');
   });
 });
 
-describe('Details page ', function () {
+describe('Confirm page ', function () {
   const todaysDate = Cypress.moment().format('YYYY');
   beforeEach(() => {
     // GET `/start`
@@ -77,34 +77,20 @@ describe('Details page ', function () {
     cy.get('#main-content form input[type="text"]#referee-email').type('testuser@email.com');
     cy.get('#main-content form button.naturescot-forward-button').click();
     // ~GET `/details`~
+    // FILL the form
+    cy.get('input[type="text"]#full-name').type('Nature Scot', {delay: 1});
+    cy.get('input[type="text"]#address-line-1').type('Great Glen House', {delay: 1});
+    cy.get('input[type="text"]#address-town').type('Inverness', {delay: 1});
+    cy.get('input[type="text"]#address-postcode').type('IV3 8NW', {delay: 1});
+    cy.get('input[type="tel"]#phone-number').type('01463 725 000', {delay: 1});
+    cy.get('input[type="text"]#email-address').type('licensing@nature.scot', {delay: 1});
+    // POST `/details`
+    cy.get('#main-content form button.naturescot-forward-button').click();
+    // ~GET `/confirm`~
   });
 
   it('should allow access if the user visits all the pages in order', function () {
-    cy.visit('/details');
-    cy.get('h1').should('contain', 'personal details');
-  });
-
-  it('blank entries + main button should navigate to same page with error', function () {
-    cy.visit('/details');
-    cy.get('#main-content form button.naturescot-forward-button').click();
-    cy.url().should('include', '/details');
-
-    cy.get('h2#error-summary-title').should('contain', 'There is a problem');
-
-    cy.get('.govuk-error-summary ul li a')
-      .should('contain', 'Enter your full name')
-      .and('contain', 'Enter your building and street')
-      .and('contain', 'Enter your town')
-      .and('contain', 'Enter your postcode')
-      .and('contain', 'Enter your phone number')
-      .and('contain', 'Enter your email address');
-
-    cy.get('form fieldset .govuk-form-group--error')
-      .and('contain', 'Enter your full name')
-      .and('contain', 'Enter your building and street')
-      .and('contain', 'Enter your town')
-      .and('contain', 'Enter your postcode')
-      .and('contain', 'Enter your phone number')
-      .and('contain', 'Enter your email address');
+    cy.visit('/confirm');
+    cy.get('h1').should('contain', 'answers before sending');
   });
 });
