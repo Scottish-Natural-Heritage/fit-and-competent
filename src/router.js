@@ -18,6 +18,7 @@ import SikaExperienceController from './controllers/sika-experience.js';
 import FallowExperienceController from './controllers/fallow-experience.js';
 import BestPracticeController from './controllers/best-practice.js';
 import RefereeController from './controllers/referee.js';
+import DetailsController from './controllers/details.js';
 // Configure all of the pages and routes.
 
 router.use(
@@ -143,6 +144,7 @@ router.use(
   Page({
     path: 'best-practice',
     back: 'fallow-experience',
+    positiveForward: 'details',
     secondaryForward: 'referee',
     controller: BestPracticeController
   })
@@ -152,7 +154,16 @@ router.use(
   Page({
     path: 'referee',
     back: 'best-practice',
+    positiveForward: 'details',
     controller: RefereeController
+  })
+);
+
+router.use(
+  Page({
+    path: 'details',
+    back: 'best-practice',
+    controller: DetailsController
   })
 );
 
