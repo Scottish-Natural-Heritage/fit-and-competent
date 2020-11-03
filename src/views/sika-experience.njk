@@ -11,8 +11,8 @@
   {% set sikaExperienceYearsErrors %}
     {% if model.sikaExperienceYearsInvalidError %}
       <p>The number of years experience you have controlling sika deer must only contain numbers</p>
-    {% elif model.sikaExperienceYearsGreaterThanError %}
-      <p>The number of years experience you have controlling sika deer must be greater than 0</p>
+    {% elif model.sikaExperienceYearsLessThanError %}
+      <p>The number of years experience you have controlling sika deer must be 1 or more</p>
     {% else %}
       <p>You must enter the number of years experience you have controlling sika deer</p>
     {% endif %}
@@ -37,7 +37,7 @@
         value: model.sikaExperienceYears,
         errorMessage: {
           html: sikaExperienceYearsErrors
-        } if model.sikaExperienceYearsInvalidError or model.sikaExperienceYearsEmptyError or model.sikaExperienceYearsGreaterThanError
+        } if model.sikaExperienceYearsInvalidError or model.sikaExperienceYearsEmptyError or model.sikaExperienceYearsLessThanError
       }) }}
 
       <h4 class="govuk-heading-s">
@@ -76,9 +76,9 @@
             href: "#sika-experience-years-error"
         } if model.sikaExperienceYearsInvalidError,
         {
-            text: "The number of years experience you have controlling sika deer must be greater than 0",
+            text: "The number of years experience you have controlling sika deer must be 1 or more",
             href: "#sika-experience-years-error"
-        } if model.sikaExperienceYearsGreaterThanError,
+        } if model.sikaExperienceYearsLessThanError,
         {
             text: "The number of sika deer you control must only contain numbers",
             href: "#sika-control-number-error"

@@ -23,7 +23,7 @@ const sikaExperienceController = (request) => {
   request.session.sikaControlNumberEmptyError = false;
   request.session.sikaExperienceYearsInvalidError = false;
   request.session.sikaControlNumberInvalidError = false;
-  request.session.sikaExperienceYearsGreaterThanError = false;
+  request.session.sikaExperienceYearsLessThanError = false;
 
   if (request.body.sika === '' || request.body.sika === undefined) {
     request.session.sikaSelectionError = true;
@@ -43,7 +43,7 @@ const sikaExperienceController = (request) => {
 
     if (!request.session.sikaExperienceYearsEmptyError) {
       request.session.sikaExperienceYearsInvalidError = new RegExp(/\D/).test(request.body.sikaExperienceYears.trim());
-      request.session.sikaExperienceYearsGreaterThanError = Number.parseInt(request.body.sikaExperienceYears, 10) <= 0;
+      request.session.sikaExperienceYearsLessThanError = Number.parseInt(request.body.sikaExperienceYears, 10) <= 0;
     }
 
     if (!request.session.sikaControlNumberEmptyError) {
@@ -63,7 +63,7 @@ const sikaExperienceController = (request) => {
     request.session.sikaControlNumberEmptyError ||
     request.session.sikaExperienceYearsInvalidError ||
     request.session.sikaControlNumberInvalidError ||
-    request.session.sikaExperienceYearsGreaterThanError ||
+    request.session.sikaExperienceYearsLessThanError ||
     request.session.sikaSelectionError;
 
   // If we've seen an error in any of the fields, our visitor needs to go back

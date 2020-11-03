@@ -23,7 +23,7 @@ const fallowExperienceController = (request) => {
   request.session.fallowControlNumberEmptyError = false;
   request.session.fallowExperienceYearsInvalidError = false;
   request.session.fallowControlNumberInvalidError = false;
-  request.session.fallowExperienceYearsGreaterThanError = false;
+  request.session.fallowExperienceYearsLessThanError = false;
 
   if (request.body.fallow === '' || request.body.fallow === undefined) {
     request.session.fallowSelectionError = true;
@@ -45,7 +45,7 @@ const fallowExperienceController = (request) => {
       request.session.fallowExperienceYearsInvalidError = new RegExp(/\D/).test(
         request.body.fallowExperienceYears.trim()
       );
-      request.session.fallowExperienceYearsGreaterThanError =
+      request.session.fallowExperienceYearsLessThanError =
         Number.parseInt(request.body.fallowExperienceYears, 10) <= 0;
     }
 
@@ -66,7 +66,7 @@ const fallowExperienceController = (request) => {
     request.session.fallowControlNumberEmptyError ||
     request.session.fallowExperienceYearsInvalidError ||
     request.session.fallowControlNumberInvalidError ||
-    request.session.fallowExperienceYearsGreaterThanError ||
+    request.session.fallowExperienceYearsLessThanError ||
     request.session.fallowSelectionError;
 
   // If we've seen an error in any of the fields, our visitor needs to go back

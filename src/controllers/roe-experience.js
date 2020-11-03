@@ -23,7 +23,7 @@ const roeExperienceController = (request) => {
   request.session.roeControlNumberEmptyError = false;
   request.session.roeExperienceYearsInvalidError = false;
   request.session.roeControlNumberInvalidError = false;
-  request.session.roeExperienceYearsGreaterThanError = false;
+  request.session.roeExperienceYearsLessThanError = false;
 
   if (request.body.roe === '' || request.body.roe === undefined) {
     request.session.roeSelectionError = true;
@@ -43,7 +43,7 @@ const roeExperienceController = (request) => {
 
     if (!request.session.roeExperienceYearsEmptyError) {
       request.session.roeExperienceYearsInvalidError = new RegExp(/\D/).test(request.body.roeExperienceYears.trim());
-      request.session.roeExperienceYearsGreaterThanError = Number.parseInt(request.body.roeExperienceYears, 10) <= 0;
+      request.session.roeExperienceYearsLessThanError = Number.parseInt(request.body.roeExperienceYears, 10) <= 0;
     }
 
     if (!request.session.roeControlNumberEmptyError) {
@@ -63,7 +63,7 @@ const roeExperienceController = (request) => {
     request.session.roeControlNumberEmptyError ||
     request.session.roeExperienceYearsInvalidError ||
     request.session.roeControlNumberInvalidError ||
-    request.session.roeExperienceYearsGreaterThanError ||
+    request.session.roeExperienceYearsLessThanError ||
     request.session.roeSelectionError;
 
   // If we've seen an error in any of the fields, our visitor needs to go back
