@@ -73,7 +73,7 @@ describe('Best Practice page ', function () {
     cy.visit('/best-practice');
     cy.get('h1').should(
       'contain',
-      'Do you have a sound knowledge and understanding of Scotland’s Wild Deer Best Practice Guides?'
+      'Confirm you have a sound knowledge and understanding of Scotland’s Wild Deer Best Practice Guides?'
     );
   });
 
