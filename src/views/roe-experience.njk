@@ -11,6 +11,8 @@
   {% set roeExperienceYearsErrors %}
     {% if model.roeExperienceYearsInvalidError %}
       <p>The number of years experience you have controlling roe deer must only contain numbers</p>
+    {% elif model.roeExperienceYearsGreaterThanError %}
+      <p>The number of years experience you have controlling roe deer must be greater than 0</p>
     {% else %}
       <p>You must enter the number of years experience you have controlling roe deer</p>
     {% endif %}
@@ -35,7 +37,7 @@
         value: model.roeExperienceYears,
         errorMessage: {
           html: roeExperienceYearsErrors
-        } if model.roeExperienceYearsInvalidError or model.roeExperienceYearsEmptyError
+        } if model.roeExperienceYearsInvalidError or model.roeExperienceYearsEmptyError or model.roeExperienceYearsGreaterThanError
       }) }}
 
       <h4 class="govuk-heading-s">
@@ -73,6 +75,10 @@
             text: "The number of years experience you have controlling roe deer must only contain numbers",
             href: "#roe-experience-years-error"
         } if model.roeExperienceYearsInvalidError,
+        {
+            text: "The number of years experience you have controlling roe deer must be greater than 0",
+            href: "#roe-experience-years-error"
+        } if model.roeExperienceYearsGreaterThanError,
         {
             text: "The number of roe deer you control must only contain numbers",
             href: "#roe-control-number-error"
