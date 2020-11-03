@@ -45,8 +45,7 @@ const fallowExperienceController = (request) => {
       request.session.fallowExperienceYearsInvalidError = new RegExp(/\D/).test(
         request.body.fallowExperienceYears.trim()
       );
-      request.session.fallowExperienceYearsLessThanError =
-        Number.parseInt(request.body.fallowExperienceYears, 10) <= 0;
+      request.session.fallowExperienceYearsLessThanError = Number.parseInt(request.body.fallowExperienceYears, 10) <= 0;
     }
 
     if (!request.session.fallowControlNumberEmptyError) {
