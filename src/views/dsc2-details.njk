@@ -85,7 +85,7 @@
                   classes: "govuk-!-width-one-half",
                   id: "qualification-reference",
                   name: "dsc2Number",
-                  value: model.dsc2Number,
+                  value: model.qualificationRef,
                   errorMessage: {
                     html: dsc2NumberErrors
                   } if model.dsc2NumberError,
@@ -116,7 +116,7 @@
                   {
                     name: "dsc2Day",
                     label: "Day",
-                    value: model.dsc2Day,
+                    value: model.qualificationDay,
                     classes: "govuk-input--width-2 govuk-input--error" 
                     if model.dsc2FutureError or
                     model.dsc2InvalidError or
@@ -126,7 +126,7 @@
                   {
                     name: "dsc2Month",
                     label: "Month",
-                    value: model.dsc2Month,
+                    value: model.qualificationMonth,
                     classes: "govuk-input--width-2 govuk-input--error" 
                     if model.dsc2FutureError or
                     model.dsc2InvalidError or
@@ -136,7 +136,7 @@
                   {
                     name: "dsc2Year",
                     label: "Year",
-                    value: model.dsc2Year, 
+                    value: model.qualificationYear, 
                        classes: "govuk-input--width-4 govuk-input--error" 
                     if model.dsc2FutureError or
                     model.dsc2InvalidError or

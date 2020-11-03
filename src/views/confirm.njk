@@ -7,13 +7,23 @@
 
 {% block content %}
 
+{% set qualificationNameOrNumber %}
+  {% if model.qualificationHeld === 'other' %}
+  Qualification Name
+  {% else %}
+  Qualification Number
+  {% endif %}
+{% endset -%}
+
 {% set qualificationStrings %}
   {% if model.qualificationHeld === 'dsc1' %}
   Deer Stalking Certificate 1
   {% elif model.qualificationHeld === 'dsc2' %}
   Deer Stalking Certificate 2
-  {% else %}
+  {% elif model.qualificationHeld === 'other' %}
   Other / Equivalent Deer Stalking Certificate
+  {% else %}
+  None. Please select a valid qualification.
   {% endif %}
 {% endset -%}
 
@@ -22,8 +32,10 @@
   /dsc1-details
   {% elif model.qualificationHeld === 'dsc2' %}
   /dsc2-details
-  {% else %}
+  {% elif model.qualificationHeld === 'other' %}
   /other-qualification-details
+  {% else %}
+  /qualification
   {% endif %}
 {% endset -%}
 
@@ -57,7 +69,7 @@
         },
         {
           key: {
-            text: "Firearms Certificate Number"
+            text: "Firearm Certificate Number"
           },
           value: {
             text: model.certificateNumber
@@ -74,7 +86,7 @@
         },
         {
           key: {
-            text: "Firearms Certificate Date Obtained"
+            text: "Firearm Certificate Date Obtained"
           },
           value: {
             text:  model.certificateIssuedDay + '/' + model.certificateIssuedMonth + '/' + model.certificateIssuedYear
@@ -84,14 +96,14 @@
               {
                 href: pathPrefix + "/firearm#certificate-issued",
                 text: "Change",
-                visuallyHiddenText: "firearm certificate issued date"
+                visuallyHiddenText: "firearm certificate date obtained"
               }
             ]
           }
         },
         {
           key: {
-            text: "Qualification held"
+            text: "Qualification Held"
           },
           value: {
             text: qualificationStrings
@@ -108,7 +120,7 @@
         },
         {
           key: {
-            text: "Qualification Number / Name"
+            text: qualificationNameOrNumber
           },
           value: {
             text: model.qualificationRef
@@ -118,7 +130,7 @@
               {
                 href: pathPrefix + qualificationPaths.trim() + '#qualification-reference',
                 text: "Change",
-                visuallyHiddenText: "qualification name"
+                visuallyHiddenText: qualificationNameOrNumber
               }
             ]
           }
@@ -135,7 +147,7 @@
               {
                 href: pathPrefix + qualificationPaths.trim() + '#qualification-date',
                 text: "Change",
-                visuallyHiddenText: "qualification issued date"
+                visuallyHiddenText: "qualification date obtained"
               }
             ]
           }
@@ -152,7 +164,7 @@
               {
                 href: pathPrefix + "/best-practice#bestPractice",
                 text: "Change",
-                visuallyHiddenText: "agreement to comply with the terms and conditions"
+                visuallyHiddenText: "confirmation of having a sound knowledge and understanding of Scotland’s Wild Deer Best Practice Guides"
               }
             ]
           }
@@ -169,14 +181,14 @@
               {
                 href: pathPrefix + "/referee#referee-name",
                 text: "Change",
-                visuallyHiddenText: "Referees Name"
+                visuallyHiddenText: "Referee's Name"
               }
             ]
           }
         } if model.refereeName and model.qualificationHeld === 'dsc1',
         {
           key: {
-            text: "Referees Email"
+            text: "Referee's Email"
           },
           value: {
             text: model.refereeEmail
@@ -230,7 +242,7 @@
               {
                 href: pathPrefix + "/red-experience#red-experience-years",
                 text: "Change",
-                visuallyHiddenText: "Experience Controlling Red Deer"
+                visuallyHiddenText: "Years Experience"
               }
             ]
           }
@@ -281,7 +293,7 @@
               {
                 href: pathPrefix + "/roe-experience#roe-experience-years",
                 text: "Change",
-                visuallyHiddenText: "Experience Controlling Roe Deer"
+                visuallyHiddenText: "Years Experience"
               }
             ]
           }
@@ -332,7 +344,7 @@
               {
                 href: pathPrefix + "/sika-experience#sika-experience-years",
                 text: "Change",
-                visuallyHiddenText: "Experience Controlling Sika Deer"
+                visuallyHiddenText: "Years Experience"
               }
             ]
           }
@@ -383,7 +395,7 @@
               {
                 href: pathPrefix + "/fallow-experience#fallow-experience-years",
                 text: "Change",
-                visuallyHiddenText: "Experience Controlling Fallow Deer"
+                visuallyHiddenText: "Years Experience"
               }
             ]
           }
