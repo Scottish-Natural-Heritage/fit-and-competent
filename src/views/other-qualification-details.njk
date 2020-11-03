@@ -27,31 +27,31 @@
       errorList: [
         {
             text: "Enter the Name of your certificate",
-            href: "#other-name-error"
+            href: "#qualification-reference-error"
         } if model.otherNameError,
         {
             text: "The date you obtained your certificate must be in the past",
-            href: "#other-date-error"
+            href: "#qualification-date-error"
         } if model.otherFutureError,
         {
             text: "The date you obtained your certificate must be a real date",
-            href: "#other-date-error"
+            href: "#qualification-date-error"
         } if model.otherInvalidError,
                         {
             text: "The date you obtained your certificate must include a day",
-            href: "#other-date-error"
+            href: "#qualification-date-error"
         } if model.otherDayError,
         {
             text: "The date you obtained your certificate must include a month",
-            href: "#other-date-error"
+            href: "#qualification-date-error"
         } if model.otherMonthError,
         {
             text: "The date you obtained your certificate must include a year",
-            href: "#other-date-error"
+            href: "#qualification-date-error"
         } if model.otherYearError,
         {
             text: "You must provide your certificate details",
-            href: "#other-date-error"
+            href: "#qualification-date-error"
         } if model.emptyPageError
       ]
     }) }}
@@ -69,7 +69,7 @@
               classes: "govuk-label--m"
             },
             classes: "govuk-!-width-one-half",
-            id: "other-name",
+            id: "qualification-reference",
             name: "otherName",
             value: model.otherName,
             errorMessage: {
@@ -81,7 +81,7 @@
           }) }}
 
           {{ govukDateInput({
-                id: "other-date",
+                id: "qualification-date",
                 name: "otherDate",
                 fieldset: {
                   legend: {

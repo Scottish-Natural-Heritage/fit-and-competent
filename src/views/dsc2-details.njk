@@ -35,35 +35,35 @@
       errorList: [
         {
             text: "Deer Stalking Certificate 2 Number must only contain numbers",
-            href: "#dsc2-number-error"
+            href: "#qualification-reference-error"
         } if model.dsc2InvalidCharacterError,
         {
             text: "Deer Stalking Certificate 2 Number must be 5 characters or fewer",
-            href: "#dsc2-number-error"
+            href: "#qualification-reference-error"
         } if model.dsc2LengthError,
         {
             text: "The date you obtained your Deer Stalking Certificate 2 must be a real date",
-            href: "#dsc2-date-error"
+            href: "#qualification-date-error"
         } if model.dsc2InvalidError,
         {
             text: "The date you obtained your Deer Stalking Certificate 2 must be in the past",
-            href: "#dsc2-date-error"
+            href: "#qualification-date-error"
         } if model.dsc2FutureError,
         {
             text: "The date you obtained your Deer Stalking Certificate 2 must include a day",
-            href: "#dsc2-date-error"
+            href: "#qualification-date-error"
         } if model.dsc2DayError,
         {
             text: "The date you obtained your Deer Stalking Certificate 2 must include a month",
-            href: "#dsc2-date-error"
+            href: "#qualification-date-error"
         } if model.dsc2MonthError,
         {
             text: "The date you obtained your Deer Stalking Certificate 2 must include a year",
-            href: "#dsc2-date-error"
+            href: "#qualification-date-error"
         } if model.dsc2YearError,
         {
             text: "You must provide qualification details",
-            href: "#dsc2-number-error"
+            href: "#qualification-reference-error"
         } if model.emptyPageError
       ]
     }) }}
@@ -83,7 +83,7 @@
                     classes: "govuk-label--m"
                   },
                   classes: "govuk-!-width-one-half",
-                  id: "dsc2-number",
+                  id: "qualification-reference",
                   name: "dsc2Number",
                   value: model.dsc2Number,
                   errorMessage: {
@@ -98,7 +98,7 @@
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
               {{ govukDateInput({
-                id: "dsc2-date",
+                id: "qualification-date",
                 name: "dsc2Date",
                 fieldset: {
                   legend: {

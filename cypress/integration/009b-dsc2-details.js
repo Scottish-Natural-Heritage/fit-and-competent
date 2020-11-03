@@ -59,9 +59,9 @@ describe('DSC2 Details page ', function () {
   it('filled-out dsc2 entry with no number + main button should navigate to same page with error', function () {
     cy.visit('/dsc2-details');
 
-    cy.get('input[type="text"]#dsc2-date-dsc2Day').type('01');
-    cy.get('input[type="text"]#dsc2-date-dsc2Month').type('01');
-    cy.get('input[type="text"]#dsc2-date-dsc2Year').type('2020');
+    cy.get('input[type="text"]#qualification-date-dsc2Day').type('01');
+    cy.get('input[type="text"]#qualification-date-dsc2Month').type('01');
+    cy.get('input[type="text"]#qualification-date-dsc2Year').type('2020');
 
     cy.get('#main-content form button.naturescot-forward-button').click();
     cy.url().should('include', '/dsc2-details');
@@ -76,10 +76,10 @@ describe('DSC2 Details page ', function () {
 
   it('filled-out dsc2 entry with invalid number + main button should navigate to same page with error', function () {
     cy.visit('/dsc2-details');
-    cy.get('input[type="text"]#dsc2-number').type('test123');
-    cy.get('input[type="text"]#dsc2-date-dsc2Day').type('01');
-    cy.get('input[type="text"]#dsc2-date-dsc2Month').type('01');
-    cy.get('input[type="text"]#dsc2-date-dsc2Year').type('2020');
+    cy.get('input[type="text"]#qualification-reference').type('test123');
+    cy.get('input[type="text"]#qualification-date-dsc2Day').type('01');
+    cy.get('input[type="text"]#qualification-date-dsc2Month').type('01');
+    cy.get('input[type="text"]#qualification-date-dsc2Year').type('2020');
 
     cy.get('#main-content form button.naturescot-forward-button').click();
     cy.url().should('include', '/dsc2-details');
@@ -94,10 +94,10 @@ describe('DSC2 Details page ', function () {
 
   it('filled-out dsc2 entry with invalid number + main button should navigate to same page with error', function () {
     cy.visit('/dsc2-details');
-    cy.get('input[type="text"]#dsc2-number').type('123456');
-    cy.get('input[type="text"]#dsc2-date-dsc2Day').type('01');
-    cy.get('input[type="text"]#dsc2-date-dsc2Month').type('01');
-    cy.get('input[type="text"]#dsc2-date-dsc2Year').type('2020');
+    cy.get('input[type="text"]#qualification-reference').type('123456');
+    cy.get('input[type="text"]#qualification-date-dsc2Day').type('01');
+    cy.get('input[type="text"]#qualification-date-dsc2Month').type('01');
+    cy.get('input[type="text"]#qualification-date-dsc2Year').type('2020');
 
     cy.get('#main-content form button.naturescot-forward-button').click();
     cy.url().should('include', '/dsc2-details');
@@ -113,10 +113,10 @@ describe('DSC2 Details page ', function () {
   it('filled-out dsc2 entry with future date + main button should navigate to same page with error', function () {
     cy.visit('/dsc2-details');
 
-    cy.get('input[type="text"]#dsc2-number').type('12345');
-    cy.get('input[type="text"]#dsc2-date-dsc2Day').type('01');
-    cy.get('input[type="text"]#dsc2-date-dsc2Month').type('01');
-    cy.get('input[type="text"]#dsc2-date-dsc2Year').type('2999');
+    cy.get('input[type="text"]#qualification-reference').type('12345');
+    cy.get('input[type="text"]#qualification-date-dsc2Day').type('01');
+    cy.get('input[type="text"]#qualification-date-dsc2Month').type('01');
+    cy.get('input[type="text"]#qualification-date-dsc2Year').type('2999');
 
     cy.get('#main-content form button.naturescot-forward-button').click();
     cy.url().should('include', '/dsc2-details');
@@ -132,10 +132,10 @@ describe('DSC2 Details page ', function () {
   it('filled-out dsc2 entry with invalid date + main button should navigate to same page with error', function () {
     cy.visit('/dsc2-details');
 
-    cy.get('input[type="text"]#dsc2-number').type('12345');
-    cy.get('input[type="text"]#dsc2-date-dsc2Day').type('31');
-    cy.get('input[type="text"]#dsc2-date-dsc2Month').type('02');
-    cy.get('input[type="text"]#dsc2-date-dsc2Year').type('2020');
+    cy.get('input[type="text"]#qualification-reference').type('12345');
+    cy.get('input[type="text"]#qualification-date-dsc2Day').type('31');
+    cy.get('input[type="text"]#qualification-date-dsc2Month').type('02');
+    cy.get('input[type="text"]#qualification-date-dsc2Year').type('2020');
 
     cy.get('#main-content form button.naturescot-forward-button').click();
     cy.url().should('include', '/dsc2-details');
@@ -151,7 +151,7 @@ describe('DSC2 Details page ', function () {
   it('filled-out dsc2 entry with no date + main button should navigate to same page with error', function () {
     cy.visit('/dsc2-details');
 
-    cy.get('input[type="text"]#dsc2-number').type('12345');
+    cy.get('input[type="text"]#qualification-reference').type('12345');
 
     cy.get('#main-content form button.naturescot-forward-button').click();
     cy.url().should('include', '/dsc2-details');

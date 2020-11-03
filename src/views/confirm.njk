@@ -27,26 +27,6 @@
   {% endif %}
 {% endset -%}
 
-{% set qualificationNumberIds %}
-  {% if model.qualificationHeld === 'dsc1' %}
-  #dsc1-number
-  {% elif model.qualificationHeld === 'dsc2' %}
-  #dsc2-number
-  {% else %}
-  #other-name
-  {% endif %}
-{% endset -%}
-
-{% set qualificationDateIds %}
-  {% if model.qualificationHeld === 'dsc1' %}
-  #dsc1-date
-  {% elif model.qualificationHeld === 'dsc2' %}
-  #dsc2-date
-  {% else %}
-  #other-date
-  {% endif %}
-{% endset -%}
-
   <form method="post">
     <h1 class="govuk-heading-xl">
       Check your answers before sending your application
@@ -136,7 +116,7 @@
           actions: {
             items: [
               {
-                href: pathPrefix + qualificationPaths.trim() + qualificationNumberIds.trim(),
+                href: pathPrefix + qualificationPaths.trim() + '#qualification-reference',
                 text: "Change",
                 visuallyHiddenText: "qualification name"
               }
@@ -153,7 +133,7 @@
           actions: {
             items: [
               {
-                href: pathPrefix + qualificationPaths.trim() + qualificationDateIds.trim(),
+                href: pathPrefix + qualificationPaths.trim() + '#qualification-date',
                 text: "Change",
                 visuallyHiddenText: "qualification issued date"
               }
