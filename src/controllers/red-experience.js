@@ -22,6 +22,7 @@ const redExperienceController = (request) => {
   request.session.redExperienceYearsEmptyError = false;
   request.session.redControlNumberEmptyError = false;
   request.session.redExperienceYearsInvalidError = false;
+  request.session.redExperienceYearsLessThanError = false;
   request.session.redControlNumberInvalidError = false;
 
   if (request.body.red === '' || request.body.red === undefined) {
@@ -42,6 +43,7 @@ const redExperienceController = (request) => {
 
     if (!request.session.redExperienceYearsEmptyError) {
       request.session.redExperienceYearsInvalidError = new RegExp(/\D/).test(request.body.redExperienceYears.trim());
+      request.session.redExperienceYearsLessThanError = Number.parseInt(request.body.redExperienceYears, 10) <= 0;
     }
 
     if (!request.session.redControlNumberEmptyError) {
@@ -61,6 +63,7 @@ const redExperienceController = (request) => {
     request.session.redControlNumberEmptyError ||
     request.session.redExperienceYearsInvalidError ||
     request.session.redControlNumberInvalidError ||
+    request.session.redExperienceYearsLessThanError ||
     request.session.redSelectionError;
 
   // If we've seen an error in any of the fields, our visitor needs to go back

@@ -11,6 +11,8 @@
   {% set redExperienceYearsErrors %}
     {% if model.redExperienceYearsInvalidError %}
       <p>The number of years experience you have controlling red deer must only contain numbers</p>
+    {% elif model.redExperienceYearsLessThanError %}
+      <p>The number of years experience you have controlling red deer must be 1 or more</p>
     {% else %}
       <p>You must enter the number of years experience you have controlling red deer</p>
     {% endif %}
@@ -32,9 +34,10 @@
         classes: "govuk-input--width-10",
         id: "red-experience-years",
         name: "redExperienceYears",
+        value: model.redExperienceYears,
         errorMessage: {
           html: redExperienceYearsErrors
-        } if model.redExperienceYearsInvalidError or model.redExperienceYearsEmptyError
+        } if model.redExperienceYearsInvalidError or model.redExperienceYearsEmptyError or model.redExperienceYearsLessThanError
       }) }}
 
       <h4 class="govuk-heading-s">
@@ -44,6 +47,7 @@
         classes: "govuk-input--width-10",
         id: "red-control-number",
         name: "redControlNumber",
+        value: model.redControlNumber,
         errorMessage: {
           html: redControlNumberErrors
         } if model.redControlNumberInvalidErroror or model.redControlNumberEmptyError
@@ -71,6 +75,10 @@
             text: "The number of years experience you have controlling red deer must only contain numbers",
             href: "#red-experience-years-error"
         } if model.redExperienceYearsInvalidError,
+        {
+            text: "The number of years experience you have controlling red deer must be 1 or more",
+            href: "#red-experience-years-error"
+        } if model.redExperienceYearsLessThanError,
         {
             text: "The number of red deer you control must only contain numbers",
             href: "#red-control-number-error"

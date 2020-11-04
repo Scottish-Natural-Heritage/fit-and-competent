@@ -11,6 +11,8 @@
   {% set fallowExperienceYearsErrors %}
     {% if model.fallowExperienceYearsInvalidError %}
       <p>The number of years experience you have controlling fallow deer must only contain numbers</p>
+    {% elif model.fallowExperienceYearsLessThanError %}
+      <p>The number of years experience you have controlling fallow deer must be 1 or more</p>
     {% else %}
       <p>You must enter the number of years experience you have controlling fallow deer</p>
     {% endif %}
@@ -32,9 +34,10 @@
         classes: "govuk-input--width-10",
         id: "fallow-experience-years",
         name: "fallowExperienceYears",
+        value: model.fallowExperienceYears,
         errorMessage: {
           html: fallowExperienceYearsErrors
-        } if model.fallowExperienceYearsInvalidError or model.fallowExperienceYearsEmptyError
+        } if model.fallowExperienceYearsInvalidError or model.fallowExperienceYearsEmptyError or model.fallowExperienceYearsLessThanError
       }) }}
 
       <h4 class="govuk-heading-s">
@@ -44,6 +47,7 @@
         classes: "govuk-input--width-10",
         id: "fallow-control-number",
         name: "fallowControlNumber",
+        value: model.fallowControlNumber,
         errorMessage: {
           html: fallowControlNumberErrors
         } if model.fallowControlNumberInvalidErroror or model.fallowControlNumberEmptyError
@@ -71,6 +75,10 @@
             text: "The number of years experience you have controlling fallow deer must only contain numbers",
             href: "#fallow-experience-years-error"
         } if model.fallowExperienceYearsInvalidError,
+        {
+            text: "The number of years experience you have controlling fallow deer must be 1 or more",
+            href: "#fallow-experience-years-error"
+        } if model.fallowExperienceYearsLessThanError,
         {
             text: "The number of fallow deer you control must only contain numbers",
             href: "#fallow-control-number-error"
