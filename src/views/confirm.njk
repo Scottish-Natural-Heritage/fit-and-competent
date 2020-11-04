@@ -211,212 +211,25 @@
       Experience details
     </h2>
 
-    {{ govukSummaryList({
+     {{ govukSummaryList({
       rows: [
         {
           key: {
-            text: "Experience Controlling Red Deer"
+            text: "Experience controlling species"
           },
           value: {
-            text: model.red
-          },
-          actions: {
-            items: [
-              {
-                href: pathPrefix + "/red-experience#red",
-                text: "Change",
-                visuallyHiddenText: "Experience Controlling Red Deer"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Years Experience"
-          },
-          value: {
-            text: model.redExperienceYears
+            html: model.displayExperience
           },
           actions: {
             items: [
               {
                 href: pathPrefix + "/red-experience#red-experience-years",
                 text: "Change",
-                visuallyHiddenText: "Years Experience"
+                visuallyHiddenText: "Experience controlling species"
               }
             ]
           }
-        } if model.red === 'yes',
-        {
-          key: {
-            text: "Number Controlled in the last 5 years"
-          },
-          value: {
-            text: model.redControlNumber
-          },
-          actions: {
-            items: [
-              {
-                href: pathPrefix + "/red-experience#red-control-number",
-                text: "Change",
-                visuallyHiddenText: "Number Controlled in the last 5 years"
-              }
-            ]
-          }
-        } if model.red === 'yes',
-        {
-          key: {
-            text: "Experience Controlling Roe Deer"
-          },
-          value: {
-            text: model.roe
-          },
-          actions: {
-            items: [
-              {
-                href: pathPrefix + "/roe-experience#roe",
-                text: "Change",
-                visuallyHiddenText: "Experience Controlling Roe Deer"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Years Experience"
-          },
-          value: {
-            text: model.roeExperienceYears
-          },
-          actions: {
-            items: [
-              {
-                href: pathPrefix + "/roe-experience#roe-experience-years",
-                text: "Change",
-                visuallyHiddenText: "Years Experience"
-              }
-            ]
-          }
-        } if model.roe === 'yes',
-        {
-          key: {
-            text: "Number Controlled in the last 5 years"
-          },
-          value: {
-            text: model.roeControlNumber
-          },
-          actions: {
-            items: [
-              {
-                href: pathPrefix + "/roe-experience#roe-control-number",
-                text: "Change",
-                visuallyHiddenText: "Number Controlled in the last 5 years"
-              }
-            ]
-          }
-        } if model.roe === 'yes',
-        {
-          key: {
-            text: "Experience Controlling Sika Deer"
-          },
-          value: {
-            text: model.sika
-          },
-          actions: {
-            items: [
-              {
-                href: pathPrefix + "/sika-experience#sika",
-                text: "Change",
-                visuallyHiddenText: "Experience Controlling Sika Deer"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Years Experience"
-          },
-          value: {
-            text: model.sikaExperienceYears
-          },
-          actions: {
-            items: [
-              {
-                href: pathPrefix + "/sika-experience#sika-experience-years",
-                text: "Change",
-                visuallyHiddenText: "Years Experience"
-              }
-            ]
-          }
-        } if model.sika === 'yes',
-        {
-          key: {
-            text: "Number Controlled in the last 5 years"
-          },
-          value: {
-            text: model.sikaControlNumber
-          },
-          actions: {
-            items: [
-              {
-                href: pathPrefix + "/sika-experience#sika-control-number",
-                text: "Change",
-                visuallyHiddenText: "Number Controlled in the last 5 years"
-              }
-            ]
-          }
-        } if model.sika === 'yes',
-        {
-          key: {
-            text: "Experience Controlling Fallow Deer"
-          },
-          value: {
-            text: model.fallow
-          },
-          actions: {
-            items: [
-              {
-                href: pathPrefix + "/fallow-experience#fallow",
-                text: "Change",
-                visuallyHiddenText: "Experience Controlling Fallow Deer"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Years Experience"
-          },
-          value: {
-            text: model.fallowExperienceYears
-          },
-          actions: {
-            items: [
-              {
-                href: pathPrefix + "/fallow-experience#fallow-experience-years",
-                text: "Change",
-                visuallyHiddenText: "Years Experience"
-              }
-            ]
-          }
-        } if model.fallow === 'yes',
-        {
-          key: {
-            text: "Number Controlled in the last 5 years"
-          },
-          value: {
-            text: model.fallowControlNumber
-          },
-          actions: {
-            items: [
-              {
-                href: pathPrefix + "/fallow-experience#fallow-control-number",
-                text: "Change",
-                visuallyHiddenText: "Number Controlled in the last 5 years"
-              }
-            ]
-          }
-        } if model.fallow === 'yes'
+        }
       ]
     }) }}
 
