@@ -41,10 +41,10 @@ describe('Referee Details page ', function () {
     cy.get('#main-content form button.naturescot-forward-button').click();
     // ~GET `/dsc1-details`~
     // POST `/dsc1-details`
-    cy.get('#main-content form input[type="text"]#dsc1-number').type('12345');
-    cy.get('#main-content form input[type="text"]#dsc1-date-dsc1Day').type('01');
-    cy.get('#main-content form input[type="text"]#dsc1-date-dsc1Month').type('01');
-    cy.get('#main-content form input[type="text"]#dsc1-date-dsc1Year').type(todaysDate);
+    cy.get('#main-content form input[type="text"]#qualification-reference').type('12345');
+    cy.get('#main-content form input[type="text"]#qualification-date-dsc1Day').type('01');
+    cy.get('#main-content form input[type="text"]#qualification-date-dsc1Month').type('01');
+    cy.get('#main-content form input[type="text"]#qualification-date-dsc1Year').type(todaysDate);
     cy.get('#main-content form button.naturescot-forward-button').click();
     // ~GET `/red-experience`~
     // CLICK no

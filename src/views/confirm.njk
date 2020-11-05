@@ -1,0 +1,381 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+
+{% set qualificationNameOrNumber %}
+  {% if model.qualificationHeld === 'other' %}
+  Qualification Name
+  {% else %}
+  Qualification Number
+  {% endif %}
+{% endset -%}
+
+{% set qualificationStrings %}
+  {% if model.qualificationHeld === 'dsc1' %}
+  Deer Stalking Certificate 1
+  {% elif model.qualificationHeld === 'dsc2' %}
+  Deer Stalking Certificate 2
+  {% elif model.qualificationHeld === 'other' %}
+  Other / Equivalent Deer Stalking Certificate
+  {% else %}
+  None. Please select a valid qualification.
+  {% endif %}
+{% endset -%}
+
+{% set qualificationPaths %}
+  {% if model.qualificationHeld === 'dsc1' %}
+  /dsc1-details
+  {% elif model.qualificationHeld === 'dsc2' %}
+  /dsc2-details
+  {% elif model.qualificationHeld === 'other' %}
+  /other-qualification-details
+  {% else %}
+  /qualification
+  {% endif %}
+{% endset -%}
+
+  <form method="post">
+    <h1 class="govuk-heading-xl">
+      Check your answers before sending your application
+    </h1>
+
+    <h2 class="govuk-heading-m">
+      Application details
+    </h2>
+
+    {{ govukSummaryList({
+      rows: [
+        {
+          key: {
+            text: "Criminal Convictions"
+          },
+          value: {
+            text: "I have not been convicted of a wildlife crime." if model.conviction === false
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/conviction#conviction",
+                text: "Change",
+                visuallyHiddenText: "convictions"
+              }
+            ]
+          }
+        },
+        {
+          key: {
+            text: "Firearm Certificate Number"
+          },
+          value: {
+            text: model.certificateNumber
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/firearm#certificate-number",
+                text: "Change",
+                visuallyHiddenText: "firearm certificate number"
+              }
+            ]
+          }
+        },
+        {
+          key: {
+            text: "Firearm Certificate Date Obtained"
+          },
+          value: {
+            text:  model.certificateIssuedDay + '/' + model.certificateIssuedMonth + '/' + model.certificateIssuedYear
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/firearm#certificate-issued",
+                text: "Change",
+                visuallyHiddenText: "firearm certificate date obtained"
+              }
+            ]
+          }
+        },
+        {
+          key: {
+            text: "Qualification Held"
+          },
+          value: {
+            text: qualificationStrings
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/qualification#qualificationHeld",
+                text: "Change",
+                visuallyHiddenText: "qualification held"
+              }
+            ]
+          }
+        },
+        {
+          key: {
+            text: qualificationNameOrNumber
+          },
+          value: {
+            text: model.qualificationRef
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + qualificationPaths.trim() + '#qualification-reference',
+                text: "Change",
+                visuallyHiddenText: qualificationNameOrNumber
+              }
+            ]
+          }
+        },
+        {
+          key: {
+            text: "Qualification Date Obtained"
+          },
+          value: {
+            text: model.qualificationDay + '/' + model.qualificationMonth + '/' + model.qualificationYear
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + qualificationPaths.trim() + '#qualification-date',
+                text: "Change",
+                visuallyHiddenText: "qualification date obtained"
+              }
+            ]
+          }
+        },
+        {
+          key: {
+            text: "Knowledge of best practice guides"
+          },
+          value: {
+            text: "I confirm that I have a sound knowledge and understanding of Scotland’s Wild Deer Best Practice Guides" if model.bestPractice
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/best-practice#bestPractice",
+                text: "Change",
+                visuallyHiddenText: "confirmation of having a sound knowledge and understanding of Scotland’s Wild Deer Best Practice Guides"
+              }
+            ]
+          }
+        },
+        {
+          key: {
+            text: "Referees Name"
+          },
+          value: {
+            text: model.refereeName
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/referee#referee-name",
+                text: "Change",
+                visuallyHiddenText: "Referee's Name"
+              }
+            ]
+          }
+        } if model.refereeName and model.qualificationHeld === 'dsc1',
+        {
+          key: {
+            text: "Referee's Email"
+          },
+          value: {
+            text: model.refereeEmail
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/referee#referee-email",
+                text: "Change",
+                visuallyHiddenText: "Referees Email"
+              }
+            ]
+          }
+        } if model.refereeEmail and model.qualificationHeld === 'dsc1'
+      ]
+    }) }}
+
+
+    <h2 class="govuk-heading-m">
+      Experience details
+    </h2>
+
+     {{ govukSummaryList({
+      rows: [
+        {
+          key: {
+            text: "Experience controlling species"
+          },
+          value: {
+            html: model.displayExperience
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/red-experience#red-experience-years",
+                text: "Change",
+                visuallyHiddenText: "Experience controlling species"
+              }
+            ]
+          }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m">
+      Personal details
+    </h2>
+
+    {{ govukSummaryList({
+      rows: [
+        {
+          key: {
+            text: "Name"
+          },
+          value: {
+            text: model.fullName
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/details#full-name",
+                text: "Change",
+                visuallyHiddenText: "name"
+              }
+            ]
+          }
+        },
+        {
+          key: {
+            text: "Company or Organisation"
+          },
+          value: {
+            text: model.companyOrganisation
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/details#company-organisation",
+                text: "Change",
+                visuallyHiddenText: "company or organisation"
+              }
+            ]
+          }
+        },
+        {
+          key: {
+            text: "Address"
+          },
+          value: {
+            text: model.addressLine1
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/details#address-line-1",
+                text: "Change",
+                visuallyHiddenText: "contact information"
+              }
+            ]
+          },
+          classes: "naturescot-summary-list__condensed-first-row"
+        },
+        {
+          key: {
+            text: ""
+          },
+          value: {
+            text: model.addressLine2
+          },
+          classes: "naturescot-summary-list__condensed-row"
+        },
+        {
+          key: {
+            text: ""
+          },
+          value: {
+            text: model.addressTown
+          },
+          classes: "naturescot-summary-list__condensed-row"
+        },
+        {
+          key: {
+            text: ""
+          },
+          value: {
+            text: model.addressCounty
+          },
+          classes: "naturescot-summary-list__condensed-row"
+        },
+        {
+          key: {
+            text: ""
+          },
+          value: {
+            text: model.addressPostcode
+          },
+          classes: "naturescot-summary-list__condensed-last-row"
+        },
+        {
+          key: {
+            text: "Contact details"
+          },
+          value: {
+            text: model.phoneNumber
+          },
+          actions: {
+            items: [
+              {
+                href: pathPrefix + "/details#phone-number",
+                text: "Change",
+                visuallyHiddenText: "contact details"
+              }
+            ]
+          },
+          classes: "naturescot-summary-list__condensed-first-row"
+        },
+        {
+          key: {
+            text: ""
+          },
+          value: {
+            text: model.emailAddress
+          },
+          classes: "naturescot-summary-list__condensed-last-row"
+        }
+      ]
+    }) }}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+        <h2 class="govuk-heading-m">
+          Now send your application
+        </h2>
+
+        <p class="govuk-body">
+          It is your responsibility to ensure that the information you have provided
+          is correct before sending this application.
+        </p>
+
+      </div>
+    </div>
+
+    {{ govukButton({
+      text: "Accept and send",
+      classes: "naturescot-forward-button"
+    }) }}
+
+  </form>
+{% endblock %}

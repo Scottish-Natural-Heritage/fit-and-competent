@@ -49,9 +49,9 @@ describe('Other Qualification Details page ', function () {
   it('filled-out other entry with no name + main button should navigate to same page with error', function () {
     cy.visit('/other-qualification-details');
 
-    cy.get('input[type="text"]#other-date-otherDay').type('01');
-    cy.get('input[type="text"]#other-date-otherMonth').type('01');
-    cy.get('input[type="text"]#other-date-otherYear').type('2020');
+    cy.get('input[type="text"]#qualification-date-otherDay').type('01');
+    cy.get('input[type="text"]#qualification-date-otherMonth').type('01');
+    cy.get('input[type="text"]#qualification-date-otherYear').type('2020');
 
     cy.get('#main-content form button.naturescot-forward-button').click();
     cy.url().should('include', '/other-qualification-details');
@@ -64,10 +64,10 @@ describe('Other Qualification Details page ', function () {
   it('filled-out other entry with future date + main button should navigate to same page with error', function () {
     cy.visit('/other-qualification-details');
 
-    cy.get('input[type="text"]#other-name').type('test qualification');
-    cy.get('input[type="text"]#other-date-otherDay').type('01');
-    cy.get('input[type="text"]#other-date-otherMonth').type('01');
-    cy.get('input[type="text"]#other-date-otherYear').type('2999');
+    cy.get('input[type="text"]#qualification-reference').type('test qualification');
+    cy.get('input[type="text"]#qualification-date-otherDay').type('01');
+    cy.get('input[type="text"]#qualification-date-otherMonth').type('01');
+    cy.get('input[type="text"]#qualification-date-otherYear').type('2999');
 
     cy.get('#main-content form button.naturescot-forward-button').click();
     cy.url().should('include', '/other-qualification-details');
@@ -83,10 +83,10 @@ describe('Other Qualification Details page ', function () {
   it('filled-out other entry with invalid date + main button should navigate to same page with error', function () {
     cy.visit('/other-qualification-details');
 
-    cy.get('input[type="text"]#other-name').type('test qualification');
-    cy.get('input[type="text"]#other-date-otherDay').type('31');
-    cy.get('input[type="text"]#other-date-otherMonth').type('02');
-    cy.get('input[type="text"]#other-date-otherYear').type('2020');
+    cy.get('input[type="text"]#qualification-reference').type('test qualification');
+    cy.get('input[type="text"]#qualification-date-otherDay').type('31');
+    cy.get('input[type="text"]#qualification-date-otherMonth').type('02');
+    cy.get('input[type="text"]#qualification-date-otherYear').type('2020');
 
     cy.get('#main-content form button.naturescot-forward-button').click();
     cy.url().should('include', '/other-qualification-details');
@@ -102,7 +102,7 @@ describe('Other Qualification Details page ', function () {
   it('filled-out other entry with no date + main button should navigate to same page with error', function () {
     cy.visit('/other-qualification-details');
 
-    cy.get('input[type="text"]#other-name').type('test qualification');
+    cy.get('input[type="text"]#qualification-reference').type('test qualification');
 
     cy.get('#main-content form button.naturescot-forward-button').click();
     cy.url().should('include', '/other-qualification-details');

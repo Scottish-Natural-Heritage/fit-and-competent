@@ -1,11 +1,11 @@
-describe('Best Practice page directly', function () {
+describe('Confirm page directly', function () {
   it('should prevent access', function () {
-    cy.visit('/best-practice', {failOnStatusCode: false});
+    cy.visit('/confirm', {failOnStatusCode: false});
     cy.get('h1').should('contain', 'there is a problem with the service');
   });
 });
 
-describe('Best Practice page ', function () {
+describe('Confirm page ', function () {
   const todaysDate = Cypress.moment().format('YYYY');
   beforeEach(() => {
     // GET `/start`
@@ -64,24 +64,33 @@ describe('Best Practice page ', function () {
     // ~GET `/fallow-experience`~
     // CLICK no
     cy.get('#main-content form input[type="radio"][value="no"]').click();
-    // POST `/fallow-experience`
+
     cy.get('#main-content form button.naturescot-forward-button').click();
     // ~GET `/best-practice`~
+    // CLICK agree checkbox
+    cy.get('#main-content form input[type="checkbox"]#bestPractice').click();
+    cy.get('#main-content form button.naturescot-forward-button').click();
+    // POST `/best-practice`
+    // ~GET `/referee`~
+    // POST `/referee`
+    cy.get('#main-content form input[type="text"]#referee-name').type('Test User');
+    cy.get('#main-content form input[type="text"]#referee-email').type('testuser@email.com');
+    cy.get('#main-content form button.naturescot-forward-button').click();
+    // ~GET `/details`~
+    // FILL the form
+    cy.get('input[type="text"]#full-name').type('Nature Scot', {delay: 1});
+    cy.get('input[type="text"]#address-line-1').type('Great Glen House', {delay: 1});
+    cy.get('input[type="text"]#address-town').type('Inverness', {delay: 1});
+    cy.get('input[type="text"]#address-postcode').type('IV3 8NW', {delay: 1});
+    cy.get('input[type="tel"]#phone-number').type('01463 725 000', {delay: 1});
+    cy.get('input[type="text"]#email-address').type('licensing@nature.scot', {delay: 1});
+    // POST `/details`
+    cy.get('#main-content form button.naturescot-forward-button').click();
+    // ~GET `/confirm`~
   });
 
   it('should allow access if the user visits all the pages in order', function () {
-    cy.visit('/best-practice');
-    cy.get('h1').should(
-      'contain',
-      'Confirm you have a sound knowledge and understanding of Scotland’s Wild Deer Best Practice Guides?'
-    );
-  });
-
-  it('"no" checkbox + main button should navigate to same page with error', function () {
-    cy.visit('/best-practice');
-    cy.get('#main-content form button.naturescot-forward-button').click();
-    cy.url().should('include', '/best-practice');
-    cy.get('h2#error-summary-title').should('contain', 'There is a problem');
-    cy.get('span#bestPractice-error').should('contain', 'You must confirm');
+    cy.visit('/confirm');
+    cy.get('h1').should('contain', 'answers before sending');
   });
 });

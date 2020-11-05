@@ -19,6 +19,7 @@ import FallowExperienceController from './controllers/fallow-experience.js';
 import BestPracticeController from './controllers/best-practice.js';
 import RefereeController from './controllers/referee.js';
 import DetailsController from './controllers/details.js';
+import ConfirmController from './controllers/confirm.js';
 // Configure all of the pages and routes.
 
 router.use(
@@ -163,7 +164,16 @@ router.use(
   Page({
     path: 'details',
     back: 'best-practice',
+    positiveForward: 'confirm',
     controller: DetailsController
+  })
+);
+
+router.use(
+  Page({
+    path: 'confirm',
+    back: 'details',
+    controller: ConfirmController
   })
 );
 

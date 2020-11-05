@@ -1,5 +1,56 @@
 import {ReturnState} from './_base.js';
 import {cleanInt} from './_util.js';
+
+const buildDisplayExperience = (session) => {
+  const table = [];
+
+  table.push(`
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Deer Species</th>
+          <th scope="col" class="govuk-table__header">Experience Controlling</th>
+          <th scope="col" class="govuk-table__header">Years experience</th>
+          <th scope="col" class="govuk-table__header">Number controlled in the last 5 years</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+  `);
+
+  table.push(`
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Red</th>
+        <td class="govuk-table__cell">${session.red}</td>
+        <td class="govuk-table__cell">${session.redExperienceYears ? session.redExperienceYears : '-'} </td>
+        <td class="govuk-table__cell">${session.redControlNumber ? session.redControlNumber : '-'}</td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Roe</th>
+        <td class="govuk-table__cell">${session.roe}</td>
+        <td class="govuk-table__cell">${session.roeExperienceYears ? session.roeExperienceYears : '-'}</td>
+        <td class="govuk-table__cell">${session.roeControlNumber ? session.roeControlNumber : '-'}</td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Sika</th>
+        <td class="govuk-table__cell">${session.sika}</td>
+        <td class="govuk-table__cell">${session.sikaExperienceYears ? session.sikaExperienceYears : '-'}</td>
+        <td class="govuk-table__cell">${session.sikaControlNumber ? session.sikaControlNumber : '-'}</td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Fallow</th>
+        <td class="govuk-table__cell">${session.fallow}</td>
+        <td class="govuk-table__cell">${session.fallowExperienceYears ? session.fallowExperienceYears : '-'}</td>
+        <td class="govuk-table__cell">${session.fallowControlNumber ? session.fallowControlNumber : '-'}</td>
+      </tr>`);
+
+  table.push(`
+      </tbody>
+    </table>
+  `);
+
+  return table.join('');
+};
+
 /**
  * Clean the incoming POST request body to make it more compatible with the
  * database and its validation rules.
@@ -73,6 +124,8 @@ const fallowExperienceController = (request) => {
   if (request.session.experienceError) {
     return ReturnState.Error;
   }
+
+  request.session.displayExperience = buildDisplayExperience(request.session);
 
   // The request passed all our validation, we've stofallow copies of everything we
   // need, so it's time to go on.
