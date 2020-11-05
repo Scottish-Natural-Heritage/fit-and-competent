@@ -137,19 +137,14 @@
             ]
           }) }}
 
-          {{ govukWarningText({
-            text: '' +
-              'If you do not hold a Firearm Certificate and want to continue ' +
-              'with your application please contact the NatureScot Licensing ' +
-              'Team.',
-            iconFallbackText: "Warning"
-          }) }}
-
           {{ govukButton({
           text: "Continue",
           classes: "naturescot-forward-button"
           }) }}
         </form>
+      <p class="govuk-body">
+        If you do not hold a Firearm Certificate and want to continue with your application please contact the NatureScot Licensing Team.
+      </p>
       <h3 class="govuk-heading-s">Email</h3>
       <ul class="govuk-list">
         <li><a class="govuk-link" href="mailto:licensing@nature.scot">licensing@nature.scot</a></li>
