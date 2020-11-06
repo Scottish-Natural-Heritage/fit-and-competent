@@ -1,0 +1,28 @@
+{% extends "_base.njk" %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% block content %}
+  {{ govukPanel({
+        titleText: "Application complete"
+      }) }}
+
+  <h2 class="govuk-heading-l">Thank you for your application</h2>
+  <p class="govuk-body">We have sent you a confirmation email.</p>
+  <h2 class="govuk-heading-m">What happens next</h2>
+  <p class="govuk-body">
+    We will be back in touch within 10 days to let you know if your application is successful.
+  </p>
+  <p class="govuk-body">
+          Email:<br>
+    <strong class="govuk-!-font-weight-bold">
+      <a class="govuk-link" href="mailto:licencing@nature.scot">licencing@nature.scot</a>
+    </strong>
+  </p>
+
+  <p class="govuk-body">
+    <a class="govuk-link" href="http://gateway.snh.gov.uk/go/?id=38">
+      What do you think of this service?
+    </a>
+    (takes 30 seconds)
+  </p>
+{% endblock %}
