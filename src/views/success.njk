@@ -3,7 +3,8 @@
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 {% block content %}
   {{ govukPanel({
-        titleText: "Application complete"
+        titleText: "Application complete",
+        html: "Your Application reference is<br><strong>"+model.applicationRef+"</strong><br><br>"
       }) }}
 
   <h2 class="govuk-heading-l">Thank you for your application</h2>

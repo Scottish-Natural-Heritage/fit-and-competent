@@ -1,7 +1,10 @@
+import axios from 'axios';
+import config from '../config.js';
 import {ReturnState} from './_base.js';
 
 const confirmController = async (request) => {
   try {
+    const newAppResponse = await axios.post(config.apiEndpoint + '/applications');
     // Get our application object ready for submission.
     const newApp = {
       convictions: request.session.conviction,
@@ -38,7 +41,10 @@ const confirmController = async (request) => {
       bestPractice: request.session.bestPractice
     };
     // Added log to stop lint error
-    console.log(newApp);
+    const newAppUrl = newAppResponse.headers.location;
+    const updatedAppResponse = await axios.put(newAppUrl, newApp);
+    request.session.applicationRef = updatedAppResponse.data.applicationRef;
+
     // Add HTTP request
     // Let them know it all went well.
     return ReturnState.Positive;
