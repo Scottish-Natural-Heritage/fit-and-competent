@@ -45,7 +45,7 @@ const saveVisitedPage = (session, page) => {
 const guardAllows = (session, options) => {
   // Unless the user has a completed licence number they are not allowed to
   // visit the success page.
-  if (session.licenceNo === undefined && options.path === 'success') {
+  if (session.applicationRef === undefined && options.path === 'success') {
     return false;
   }
 
