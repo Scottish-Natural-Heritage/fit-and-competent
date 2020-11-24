@@ -173,7 +173,14 @@ router.use(
   Page({
     path: 'confirm',
     back: 'details',
+    positiveForward: 'success',
     controller: ConfirmController
+  })
+);
+
+router.use(
+  Page({
+    path: 'success'
   })
 );
 
