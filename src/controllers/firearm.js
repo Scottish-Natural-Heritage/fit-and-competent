@@ -33,12 +33,8 @@ const firearmController = (request) => {
   request.session.certificateIssuedDateError = false;
 
   // Clean up the user's input before we use it.
-  const {
-    cleanCertificateNumber,
-    cleanCertificateIssuedYear,
-    cleanCertificateIssuedMonth,
-    cleanCertificateIssuedDay
-  } = cleanInput(request.body);
+  const {cleanCertificateNumber, cleanCertificateIssuedYear, cleanCertificateIssuedMonth, cleanCertificateIssuedDay} =
+    cleanInput(request.body);
 
   // Save the certificate number.
   request.session.certificateNumber = cleanCertificateNumber;
